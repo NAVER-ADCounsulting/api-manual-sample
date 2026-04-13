@@ -129,22 +129,22 @@ function initSearch() {
   /* --- page sets per language --- */
   const PAGE_SETS = {
     ko: [
-      { url: 'powerlink-understanding.html',  tag: '파워링크',    title: '파워링크 이해하기',       type: 'overview' },
-      { url: 'powerlink-api.html',            tag: '파워링크',    title: 'API로 세팅 및 운영하기',  type: 'api' },
-      { url: 'shopping-understanding.html',   tag: '쇼핑검색광고', title: '쇼핑검색광고 이해하기',   type: 'overview' },
-      { url: 'shopping-api.html',             tag: '쇼핑검색광고', title: 'API로 세팅 및 운영하기',  type: 'api' },
+      { url: 'powerlink-understanding.html',  tag: '파워링크',    tagClass: 'powerlink', title: '파워링크 이해하기',       type: 'overview' },
+      { url: 'powerlink-api.html',            tag: '파워링크',    tagClass: 'powerlink', title: 'API로 세팅 및 운영하기',  type: 'api' },
+      { url: 'shopping-understanding.html',   tag: '쇼핑검색광고', tagClass: 'shopping',  title: '쇼핑검색광고 이해하기',   type: 'overview' },
+      { url: 'shopping-api.html',             tag: '쇼핑검색광고', tagClass: 'shopping',  title: 'API로 세팅 및 운영하기',  type: 'api' },
     ],
     en: [
-      { url: 'powerlink-understanding-en.html',  tag: 'Powerlink',           title: 'Powerlink Overview',          type: 'overview' },
-      { url: 'powerlink-api-en.html',            tag: 'Powerlink',           title: 'API Setup & Operations',       type: 'api' },
-      { url: 'shopping-understanding-en.html',   tag: 'Shopping Search Ads', title: 'Shopping Search Ads Overview', type: 'overview' },
-      { url: 'shopping-api-en.html',             tag: 'Shopping Search Ads', title: 'API Setup & Operations',       type: 'api' },
+      { url: 'powerlink-understanding-en.html',  tag: 'Powerlink',           tagClass: 'powerlink', title: 'Powerlink Overview',          type: 'overview' },
+      { url: 'powerlink-api-en.html',            tag: 'Powerlink',           tagClass: 'powerlink', title: 'API Setup & Operations',       type: 'api' },
+      { url: 'shopping-understanding-en.html',   tag: 'Shopping Search Ads', tagClass: 'shopping',  title: 'Shopping Search Ads Overview', type: 'overview' },
+      { url: 'shopping-api-en.html',             tag: 'Shopping Search Ads', tagClass: 'shopping',  title: 'API Setup & Operations',       type: 'api' },
     ],
     zh: [
-      { url: 'powerlink-understanding-zh.html',  tag: 'Powerlink',  title: 'Powerlink概念介绍',    type: 'overview' },
-      { url: 'powerlink-api-zh.html',            tag: 'Powerlink',  title: 'API设置与运营',        type: 'api' },
-      { url: 'shopping-understanding-zh.html',   tag: '购物搜索广告', title: '购物搜索广告概念介绍', type: 'overview' },
-      { url: 'shopping-api-zh.html',             tag: '购物搜索广告', title: 'API设置与运营',        type: 'api' },
+      { url: 'powerlink-understanding-zh.html',  tag: 'Powerlink',  tagClass: 'powerlink', title: 'Powerlink概念介绍',    type: 'overview' },
+      { url: 'powerlink-api-zh.html',            tag: 'Powerlink',  tagClass: 'powerlink', title: 'API设置与运营',        type: 'api' },
+      { url: 'shopping-understanding-zh.html',   tag: '购物搜索广告', tagClass: 'shopping', title: '购物搜索广告概念介绍', type: 'overview' },
+      { url: 'shopping-api-zh.html',             tag: '购物搜索广告', tagClass: 'shopping', title: 'API设置与运营',        type: 'api' },
     ],
   };
 
@@ -155,18 +155,21 @@ function initSearch() {
       noResults:   q => `"${esc(q)}"에 대한 결과가 없습니다.`,
       header:      (n, q) => `<strong>${n}개</strong> 결과 · "<em>${esc(q)}</em>"`,
       fetchFailed: '⚠️ 검색 기능은 로컬 서버(예: VS Code Live Server)에서 실행해야 합니다.',
+      typeLabel:   { overview: '광고상품', api: 'API' },
     },
     en: {
       loading:     'Searching…',
       noResults:   q => `No results found for "${esc(q)}".`,
       header:      (n, q) => `<strong>${n} result${n !== 1 ? 's' : ''}</strong> · "<em>${esc(q)}</em>"`,
       fetchFailed: '⚠️ Search requires a local server (e.g., VS Code Live Server).',
+      typeLabel:   { overview: 'Ad Product', api: 'API' },
     },
     zh: {
       loading:     '搜索中…',
       noResults:   q => `未找到"${esc(q)}"的相关结果。`,
       header:      (n, q) => `<strong>${n}个结果</strong> · "<em>${esc(q)}</em>"`,
       fetchFailed: '⚠️ 搜索功能需要通过本地服务器（如 VS Code Live Server）运行。',
+      typeLabel:   { overview: '广告产品', api: 'API' },
     },
   };
 
@@ -196,7 +199,7 @@ function initSearch() {
           h1Clone?.querySelector('.badge')?.remove();
           const pageTitle = h1Clone?.textContent.trim() || page.title;
           const pageDesc  = doc.querySelector('.page-header p')?.textContent.trim() || '';
-          entries.push({ url: page.url, tag: page.tag, type: page.type, title: pageTitle, text: pageDesc });
+          entries.push({ url: page.url, tag: page.tag, tagClass: page.tagClass, type: page.type, title: pageTitle, text: pageDesc });
 
           // One entry per heading
           main.querySelectorAll('h2, h3').forEach(h => {
@@ -223,16 +226,17 @@ function initSearch() {
             }
 
             entries.push({
-              url:  page.url + (id ? '#' + id : ''),
-              tag:  page.tag,
-              type: page.type,
+              url:      page.url + (id ? '#' + id : ''),
+              tag:      page.tag,
+              tagClass: page.tagClass,
+              type:     page.type,
               title,
               text: parts.join(' ').slice(0, 400),
             });
           });
 
         } catch (_) {
-          entries.push({ url: page.url, tag: page.tag, type: page.type, title: page.title, text: '', _fetchFailed: true });
+          entries.push({ url: page.url, tag: page.tag, tagClass: page.tagClass, type: page.type, title: page.title, text: '', _fetchFailed: true });
         }
       }));
 
@@ -335,13 +339,13 @@ function initSearch() {
     }
 
     const items = results.map(r => {
-      const raw     = r.text ? r.text.slice(0, 160) + (r.text.length > 160 ? '…' : '') : '';
-      const snippet = raw ? `<span class="srp-snippet">${hlEsc(raw, query)}</span>` : '';
-      const typeIcon = r.type === 'api' ? '⚙️ API' : '📖';
+      const raw      = r.text ? r.text.slice(0, 160) + (r.text.length > 160 ? '…' : '') : '';
+      const snippet  = raw ? `<span class="srp-snippet">${hlEsc(raw, query)}</span>` : '';
+      const typeText = T.typeLabel[r.type] || r.type;
       return `<a href="${r.url}" class="srp-item">
         <div class="srp-tags">
-          <span class="srp-tag">${esc(r.tag)}</span>
-          <span class="srp-type srp-type--${r.type || 'overview'}">${typeIcon}</span>
+          <span class="srp-tag srp-tag--${r.tagClass || 'powerlink'}">${esc(r.tag)}</span>
+          <span class="srp-type">${esc(typeText)}</span>
         </div>
         <span class="srp-title">${hlEsc(r.title, query)}</span>
         ${snippet}

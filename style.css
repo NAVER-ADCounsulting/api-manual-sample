@@ -1000,11 +1000,19 @@ pre[class*="language-"] {
   font-weight: 700;
   letter-spacing: .5px;
   text-transform: uppercase;
-  background: var(--green-mid);
-  color: var(--green-dark);
   padding: 3px 8px;
   border-radius: 4px;
   white-space: nowrap;
+}
+
+.srp-tag--powerlink {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.srp-tag--shopping {
+  background: #fef3c7;
+  color: #b45309;
 }
 
 .srp-type {
@@ -1013,16 +1021,8 @@ pre[class*="language-"] {
   padding: 2px 7px;
   border-radius: 4px;
   white-space: nowrap;
-}
-
-.srp-type--overview {
-  background: #ede9fe;
-  color: #6d28d9;
-}
-
-.srp-type--api {
-  background: #fff3e0;
-  color: #c05c00;
+  background: #f3f4f6;
+  color: #6b7280;
 }
 
 .srp-title {
