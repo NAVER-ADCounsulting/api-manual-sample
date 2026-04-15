@@ -537,7 +537,7 @@
             <span class="lang-label">bash / curl</span>
             <button class="copy-btn">Copy</button>
           </div>
-          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/stats?id={campaignId or groupId or adId}&fields=[\"clkCnt\",\"impCnt\",\"salesAmt\",\"convCnt\"]&timeRange={\"since\":\"2026-04-01\",\"until\":\"2026-04-10\"}" \
+          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/stats?id={campaignId or groupId or adId}&fields=[\"clkCnt\",\"impCnt\",\"salesAmt\",\"ccnt\"]&timeRange={\"since\":\"2026-04-01\",\"until\":\"2026-04-10\"}" \
   -H "X-Timestamp: {timestamp}" \
   -H "X-API-KEY: {API KEY}" \
   -H "X-Customer: {Customer ID}" \
@@ -553,8 +553,10 @@
               <tr><td><code>clkCnt</code></td><td>Clicks</td><td>Assess creative CTR</td></tr>
               <tr><td><code>salesAmt</code></td><td>Ad spend</td><td>Confirm budget consumption</td></tr>
               <tr><td><code>ctr</code></td><td>Click-through rate</td><td>Gauge creative attractiveness</td></tr>
-              <tr><td><code>convCnt</code></td><td>Conversions</td><td>Check connection to actual purchases</td></tr>
+              <tr><td><code>ccnt</code></td><td>Conversions</td><td>Check connection to actual purchases</td></tr>
               <tr><td><code>convAmt</code></td><td>Conversion revenue</td><td>Basis for ROAS calculation</td></tr>
+              <tr><td><code>purchaseCcnt</code></td><td>Purchase-complete conversions</td><td>Conversions by purchase completion only, excl. cart adds (Added Mar 2026)</td></tr>
+              <tr><td><code>purchaseConvAmt</code></td><td>Purchase-complete conv. revenue</td><td>Basis for purchase-completion ROAS (Added Mar 2026)</td></tr>
             </tbody>
           </table>
         </div>

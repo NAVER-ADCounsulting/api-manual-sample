@@ -538,7 +538,7 @@
             <span class="lang-label">bash / curl</span>
             <button class="copy-btn">Copy</button>
           </div>
-          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/stats?id={广告系列ID或广告组ID或素材ID}&fields=[\"clkCnt\",\"impCnt\",\"salesAmt\",\"convCnt\"]&timeRange={\"since\":\"2026-04-01\",\"until\":\"2026-04-10\"}" \
+          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/stats?id={广告系列ID或广告组ID或素材ID}&fields=[\"clkCnt\",\"impCnt\",\"salesAmt\",\"ccnt\"]&timeRange={\"since\":\"2026-04-01\",\"until\":\"2026-04-10\"}" \
   -H "X-Timestamp: {timestamp}" \
   -H "X-API-KEY: {API KEY}" \
   -H "X-Customer: {Customer ID}" \
@@ -554,8 +554,10 @@
               <tr><td><code>clkCnt</code></td><td>点击次数</td><td>判断素材CTR</td></tr>
               <tr><td><code>salesAmt</code></td><td>广告费用</td><td>确认预算消耗</td></tr>
               <tr><td><code>ctr</code></td><td>点击率</td><td>判断素材吸引力</td></tr>
-              <tr><td><code>convCnt</code></td><td>转化次数</td><td>确认是否带来实际购买</td></tr>
+              <tr><td><code>ccnt</code></td><td>转化次数</td><td>确认是否带来实际购买</td></tr>
               <tr><td><code>convAmt</code></td><td>转化销售额</td><td>ROAS计算基础</td></tr>
+              <tr><td><code>purchaseCcnt</code></td><td>购买完成转化次数</td><td>仅计算购买完成转化，不含加购（2026.03新增）</td></tr>
+              <tr><td><code>purchaseConvAmt</code></td><td>购买完成转化销售额</td><td>购买完成基准ROAS计算基础（2026.03新增）</td></tr>
             </tbody>
           </table>
         </div>

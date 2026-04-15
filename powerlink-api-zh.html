@@ -66,9 +66,10 @@
       <li class="sub"><a href="#step3">STEP 3. 注册广告素材</a></li>
       <li class="sub"><a href="#step4">STEP 4. 注册关键词</a></li>
       <li><a href="#ch5">第5章. 运营API</a></li>
+      <li class="sub"><a href="#keywords">已注册关键词查询</a></li>
       <li class="sub"><a href="#stats">统计查询</a></li>
       <li class="sub"><a href="#keywordstool">关键词搜索量</a></li>
-      <li class="sub"><a href="#bid">出价估算</a></li>
+
       <li><a href="#ch6">第6章. 广告附加信息API</a></li>
       <li><a href="#ch7">第7章. 运营技巧</a></li>
     </ul>
@@ -549,6 +550,46 @@ X-Signature = Base64(HMAC-SHA256(SECRET_KEY, "1712800000000.GET./ncc/campaigns")
         </div>
       </div>
 
+      <!-- 已注册关键词查询 -->
+      <div class="subsection" id="keywords">
+        <h3 class="subsection-title">已注册关键词查询 — GET /ncc/keywords</h3>
+        <p>查询广告组中已注册的关键词列表及各关键词的当前状态与设置值。</p>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">bash / curl</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/ncc/keywords?nccAdgroupId={adgroupId}" \
+  -H "X-Timestamp: {timestamp}" \
+  -H "X-API-KEY: {API KEY}" \
+  -H "X-Customer: {Customer ID}" \
+  -H "X-Signature: {signature}"</code></pre>
+        </div>
+
+        <p style="margin-top:14px;">响应对象主要字段：</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>字段</th><th>类型</th><th>说明</th></tr></thead>
+            <tbody>
+              <tr><td><code>nccKeywordId</code></td><td>string</td><td>关键词唯一ID</td></tr>
+              <tr><td><code>nccAdgroupId</code></td><td>string</td><td>所属广告组ID</td></tr>
+              <tr><td><code>keyword</code></td><td>string</td><td>关键词文本</td></tr>
+              <tr><td><code>bidAmt</code></td><td>number</td><td>关键词级别出价金额</td></tr>
+              <tr><td><code>useGroupBidAmt</code></td><td>boolean</td><td>是否使用广告组默认出价</td></tr>
+              <tr><td><code>adRelevanceScore</code></td><td>number</td><td>广告关联指数 — 关键词与广告素材的关联度（2025.12新增）</td></tr>
+              <tr><td><code>expectedClickScore</code></td><td>number</td><td>点击期待指数 — 关键词的预测点击可能性（2025.12新增）</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-box" style="margin-top:12px;">
+          💡 <code>adRelevanceScore</code>与<code>expectedClickScore</code>的使用方法，请参阅<a href="http://ads.naver.com/notice/27412?searchValue=&page=3" target="_blank">官方公告</a>。
+        </div>
+        <div class="warning-box" style="margin-top:12px;">
+          ⚠️ 上表仅列出主要字段。完整响应字段请参阅<a href="https://naver.github.io/searchad-apidoc" target="_blank">GitBook官方文档</a>。
+        </div>
+      </div>
+
       <!-- 统计查询 -->
       <div class="subsection" id="stats">
         <h3 class="subsection-title">统计查询 — GET /stats</h3>
@@ -650,22 +691,6 @@ X-Signature = Base64(HMAC-SHA256(SECRET_KEY, "1712800000000.GET./ncc/campaigns")
         </div>
       </div>
 
-      <!-- 出价估算 -->
-      <div class="subsection" id="bid">
-        <h3 class="subsection-title">出价估算 — GET /estimate/bid/keyword</h3>
-        <p>关键词出价设置前，预先确认预估排名和费用：</p>
-        <div class="code-block-wrap">
-          <div class="code-block-header">
-            <span class="lang-label">bash / curl</span>
-            <button class="copy-btn">Copy</button>
-          </div>
-          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/estimate/bid/keyword?keywords=nikeShoes&bids=500,1000,2000" \
-  -H "X-Timestamp: {timestamp}" \
-  -H "X-API-KEY: {API KEY}" \
-  -H "X-Customer: {Customer ID}" \
-  -H "X-Signature: {signature}"</code></pre>
-        </div>
-      </div>
     </section>
 
     <hr class="divider" />

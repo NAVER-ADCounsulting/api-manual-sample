@@ -538,7 +538,7 @@
             <span class="lang-label">bash / curl</span>
             <button class="copy-btn">Copy</button>
           </div>
-          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/stats?id={캠페인ID 또는 그룹ID 또는 소재ID}&fields=[\"clkCnt\",\"impCnt\",\"salesAmt\",\"convCnt\"]&timeRange={\"since\":\"2026-04-01\",\"until\":\"2026-04-10\"}" \
+          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/stats?id={캠페인ID 또는 그룹ID 또는 소재ID}&fields=[\"clkCnt\",\"impCnt\",\"salesAmt\",\"ccnt\"]&timeRange={\"since\":\"2026-04-01\",\"until\":\"2026-04-10\"}" \
   -H "X-Timestamp: {timestamp}" \
   -H "X-API-KEY: {API KEY}" \
   -H "X-Customer: {Customer ID}" \
@@ -554,8 +554,10 @@
               <tr><td><code>clkCnt</code></td><td>클릭수</td><td>소재 CTR 판단</td></tr>
               <tr><td><code>salesAmt</code></td><td>광고비</td><td>예산 소진 확인</td></tr>
               <tr><td><code>ctr</code></td><td>클릭률</td><td>소재 매력도 판단</td></tr>
-              <tr><td><code>convCnt</code></td><td>전환수</td><td>실구매 연결 여부</td></tr>
+              <tr><td><code>ccnt</code></td><td>전환수</td><td>실구매 연결 여부</td></tr>
               <tr><td><code>convAmt</code></td><td>전환 매출액</td><td>ROAS 계산 기반</td></tr>
+              <tr><td><code>purchaseCcnt</code></td><td>구매완료 전환수</td><td>장바구니 제외, 구매완료 기준 전환 (2026.03 신규)</td></tr>
+              <tr><td><code>purchaseConvAmt</code></td><td>구매완료 전환매출액</td><td>구매완료 기준 ROAS 계산 기반 (2026.03 신규)</td></tr>
             </tbody>
           </table>
         </div>

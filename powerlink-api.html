@@ -66,9 +66,10 @@
       <li class="sub"><a href="#step3">STEP 3. 소재 등록</a></li>
       <li class="sub"><a href="#step4">STEP 4. 키워드 등록</a></li>
       <li><a href="#ch5">CH 5. 운영 API</a></li>
+      <li class="sub"><a href="#keywords">등록 키워드 조회</a></li>
       <li class="sub"><a href="#stats">통계 조회</a></li>
       <li class="sub"><a href="#keywordstool">키워드 조회량</a></li>
-      <li class="sub"><a href="#bid">입찰가 추정</a></li>
+
       <li><a href="#ch6">CH 6. 확장소재 API</a></li>
       <li><a href="#ch7">CH 7. 운영 팁</a></li>
     </ul>
@@ -549,6 +550,46 @@ X-Signature = Base64(HMAC-SHA256(SECRET_KEY, "1712800000000.GET./ncc/campaigns")
         </div>
       </div>
 
+      <!-- 등록 키워드 조회 -->
+      <div class="subsection" id="keywords">
+        <h3 class="subsection-title">등록 키워드 조회 — GET /ncc/keywords</h3>
+        <p>광고그룹에 등록된 키워드 목록과 각 키워드의 현재 상태·설정값을 조회합니다.</p>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">bash / curl</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/ncc/keywords?nccAdgroupId={adgroupId}" \
+  -H "X-Timestamp: {timestamp}" \
+  -H "X-API-KEY: {API KEY}" \
+  -H "X-Customer: {Customer ID}" \
+  -H "X-Signature: {signature}"</code></pre>
+        </div>
+
+        <p style="margin-top:14px;">응답 객체 주요 필드:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>필드</th><th>타입</th><th>설명</th></tr></thead>
+            <tbody>
+              <tr><td><code>nccKeywordId</code></td><td>string</td><td>키워드 고유 ID</td></tr>
+              <tr><td><code>nccAdgroupId</code></td><td>string</td><td>소속 광고그룹 ID</td></tr>
+              <tr><td><code>keyword</code></td><td>string</td><td>키워드 텍스트</td></tr>
+              <tr><td><code>bidAmt</code></td><td>number</td><td>키워드별 개별 입찰가</td></tr>
+              <tr><td><code>useGroupBidAmt</code></td><td>boolean</td><td>그룹 기본 입찰가 사용 여부</td></tr>
+              <tr><td><code>adRelevanceScore</code></td><td>number</td><td>광고 연관 지수 — 키워드와 광고소재 간 연관도 (2025.12 신규)</td></tr>
+              <tr><td><code>expectedClickScore</code></td><td>number</td><td>클릭 기대 지수 — 해당 키워드의 클릭 가능성 예측 (2025.12 신규)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-box" style="margin-top:12px;">
+          💡 <code>adRelevanceScore</code>와 <code>expectedClickScore</code>의 활용 방법은 <a href="http://ads.naver.com/notice/27412?searchValue=&page=3" target="_blank">공식 공지</a>를 확인하세요.
+        </div>
+        <div class="warning-box" style="margin-top:12px;">
+          ⚠️ 위 표는 주요 필드만 정리한 것입니다. 전체 응답 필드는 <a href="https://naver.github.io/searchad-apidoc" target="_blank">GitBook 공식 문서</a>를 참고하세요.
+        </div>
+      </div>
+
       <!-- 통계 조회 -->
       <div class="subsection" id="stats">
         <h3 class="subsection-title">통계 조회 — GET /stats</h3>
@@ -650,22 +691,6 @@ X-Signature = Base64(HMAC-SHA256(SECRET_KEY, "1712800000000.GET./ncc/campaigns")
         </div>
       </div>
 
-      <!-- 입찰가 추정 -->
-      <div class="subsection" id="bid">
-        <h3 class="subsection-title">입찰가 추정 — GET /estimate/bid/keyword</h3>
-        <p>키워드 입찰가 설정 전 예상 순위와 비용을 미리 확인합니다:</p>
-        <div class="code-block-wrap">
-          <div class="code-block-header">
-            <span class="lang-label">bash / curl</span>
-            <button class="copy-btn">Copy</button>
-          </div>
-          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/estimate/bid/keyword?keywords=나이키운동화&bids=500,1000,2000" \
-  -H "X-Timestamp: {timestamp}" \
-  -H "X-API-KEY: {API KEY}" \
-  -H "X-Customer: {Customer ID}" \
-  -H "X-Signature: {signature}"</code></pre>
-        </div>
-      </div>
     </section>
 
     <hr class="divider" />
