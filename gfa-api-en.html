@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Performance Display Ads (GFA) API Setup &amp; Operations — Naver Search Ads API Guide</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a href="index-en.html" class="nav-logo">
+    <span class="logo-mark">N</span>
+    <span class="logo-text">Naver Search Ads API Guide</span>
+  </a>
+  <ul class="nav-menu">
+    <li class="nav-item">
+      <span class="nav-link">Powerlink <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="powerlink-understanding-en.html">Overview</a>
+        <a href="powerlink-api-en.html">API Setup &amp; Operations</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link">Shopping Search Ads <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="shopping-understanding-en.html">Overview</a>
+        <a href="shopping-api-en.html">API Setup &amp; Operations</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link active">GFA <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-understanding-en.html">Overview</a>
+        <a href="gfa-api-en.html">API Setup &amp; Operations</a>
+        <a href="gfa-sa-comparison-en.html">Differences from SA API</a>
+      </div>
+    </li>
+    <li class="nav-item lang-switcher">
+      <span class="nav-link">🌐 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-api.html">한국어</a>
+        <a href="gfa-api-en.html" class="lang-active">English</a>
+        <a href="gfa-api-zh.html">中文</a>
+      </div>
+    </li>
+  </ul>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Page Header -->
+<header class="page-header">
+  <div class="badge">Performance Display Ads · API</div>
+  <h1>API Setup &amp; Operations</h1>
+  <p>Step-by-step guidance with curl examples for the Performance Display Ads (GFA) API: from access requests and authentication to ad account, campaign, and creative management, performance retrieval, and audience target management.</p>
+</header>
+
+<!-- Content Wrapper -->
+<div class="content-wrap">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <h3>Contents</h3>
+    <ul>
+      <li><a href="#ch1">CH 1. Prerequisites &amp; Access Request</a></li>
+      <li><a href="#ch2">CH 2. Scope &amp; Limitations</a></li>
+      <li><a href="#ch3">CH 3. API Basics</a></li>
+      <li><a href="#ch4">CH 4. Authentication</a></li>
+      <li><a href="#ch5">CH 5. Account API</a></li>
+      <li><a href="#ch6">CH 6. Ad Structure API</a></li>
+      <li class="sub"><a href="#campaign">Campaign Creation</a></li>
+      <li class="sub"><a href="#objective">Campaign Objective</a></li>
+      <li><a href="#ch7">CH 7. Performance API</a></li>
+      <li><a href="#ch8">CH 8. Audience Management API</a></li>
+      <li><a href="#ch9">CH 9. Operating Notes &amp; FAQ</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <p class="text-small" style="margin-bottom:20px;">Source: Naver Performance Display Ads API official docs (naver-ad-api.github.io/developers) · Beta</p>
+
+    <!-- CH 1 -->
+    <section class="section" id="ch1">
+      <h2 class="section-title">
+        <span class="section-num">1</span>
+        Prerequisites &amp; Access Request
+      </h2>
+
+      <div class="warning-box">
+        ⚠️ <strong>The GFA API can only be used after obtaining access through an official partner (agency).</strong><br />
+        It is currently in a <strong>beta period</strong> where only some accounts can apply, and "usage applications are allowed only for official partners." API access is granted after approval by the administrator (Naver).
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">STEP 1. Register an Application in Naver Developers</h3>
+        <ol class="steps-list">
+          <li>Naver Developers (<a href="https://developers.naver.com" target="_blank">developers.naver.com</a>) → [Application] → [Register Application]</li>
+          <li>After agreeing to the terms, complete phone verification and enter your company name</li>
+          <li><strong>Be sure to select "Naver Login" under the APIs to use</strong></li>
+        </ol>
+        <div class="warning-box">
+          ⚠️ When using the Performance DA API, the <strong>information-provision (personal data) items</strong> set in the Naver Login API, such as name and email, <strong>are not needed</strong>. Selecting information-provision items may restrict use of your Client ID.
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">STEP 2. Issue Client ID / Client Secret</h3>
+        <p>Once application registration is complete, a <code>Client ID</code> and <code>Client Secret</code> are issued.</p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">STEP 3. Apply to Use the GFA API</h3>
+        <ol class="steps-list">
+          <li>Copy the <code>Client ID</code> value from your registered application</li>
+          <li>Access the Naver Performance Display Ads site → <strong>Primary management account → Settings → API Management</strong> menu</li>
+          <li>Register the <code>Client ID</code> under [Apply for API Use] → access is granted after administrator approval</li>
+        </ol>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">STEP 4. Connect Naver Login (Issue Access Token)</h3>
+        <p>Through Naver ID login (OAuth 2.0) integration, you obtain the <strong>access token</strong> to use for API calls.</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 2 -->
+    <section class="section" id="ch2">
+      <h2 class="section-title">
+        <span class="section-num">2</span>
+        Scope &amp; Limitations
+      </h2>
+
+      <div class="warning-box">
+        ⚠️ <strong>AdVoost Shopping is not supported via the API.</strong><br />
+        With the GFA API you can manage the ad accounts, campaigns, creatives, performance, and targets of performance display ads, but <strong>AdVoost Shopping products are not eligible for API integration.</strong> Those products must be operated directly in the ad management platform (UI).
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">What You Can Do with the API</h3>
+        <ul class="bullet-list">
+          <li>Query ad account lists and information (including permission levels)</li>
+          <li>Create, update, and query campaigns, ad groups (adSet), and creatives (creative)</li>
+          <li>Retrieve real-time performance (at the account/campaign/ad group/creative level)</li>
+          <li>Manage audience targets (customer files, etc.)</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 3 -->
+    <section class="section" id="ch3">
+      <h2 class="section-title">
+        <span class="section-num">3</span>
+        API Basics
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Base URL</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">Base URL</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-text"><code>https://openapi.naver.com/v1/ad-api/{version}/[endpoint]
+
+· v1 : fixed value
+· {version} : version defined per API (default "1.0")</code></pre>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Ad Structure Terminology Mapping</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>UI Name</th><th>API Name</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Ad account</td><td><code>adAccount</code></td><td>The top-level account unit that operates ads</td></tr>
+              <tr><td>Campaign</td><td><code>campaign</code></td><td>The advertising objective (objective) unit</td></tr>
+              <tr><td>Ad group</td><td><code>adSet</code></td><td>The targeting/budget/placement strategy unit</td></tr>
+              <tr><td>Creative</td><td><code>creative</code></td><td>The actual ad creative that is shown</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 4 -->
+    <section class="section" id="ch4">
+      <h2 class="section-title">
+        <span class="section-num">4</span>
+        Authentication
+      </h2>
+
+      <div class="highlight-box">
+        <strong>Authentication method:</strong> A Naver Login-based <strong>OAuth 2.0 Access Token</strong>. Include a Bearer token in the <code>Authorization</code> header of every request.
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Required HTTP Headers</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Header</th><th>Description</th><th>Required</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Authorization</code></td><td><code>Bearer {access token}</code> format</td><td>Always required</td></tr>
+              <tr><td><code>AccessManagerAccountNo</code></td><td>Management account number — needed only when making requests to an ad account under a management account</td><td>Conditional</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-small">If you are a direct member of the ad account, <code>AccessManagerAccountNo</code> is not needed.</p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Request Example — Query Campaigns of an Ad Account Under a Management Account</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">bash / curl</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-bash"><code>curl -X GET 'https://openapi.naver.com/v1/ad-api/1.0/adAccounts/456/campaigns' \
+  -H 'AccessManagerAccountNo: 123' \
+  -H 'Authorization: Bearer {access token}'
+
+# Query the campaign list of ad account (456) under management account (123)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 5 -->
+    <section class="section" id="ch5">
+      <h2 class="section-title">
+        <span class="section-num">5</span>
+        Account API
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Available Functions</h3>
+        <ul class="bullet-list">
+          <li><strong>Query my ad account list:</strong> Query the list of ad accounts where you have been granted a permission level (<code>AccountRole</code>) as a direct member (paging supported)</li>
+          <li><strong>Query ad account information:</strong> Query the detailed information of a specific ad account (indirect access possible through a parent management account)</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 6 -->
+    <section class="section" id="ch6">
+      <h2 class="section-title">
+        <span class="section-num">6</span>
+        Ad Structure API (Ad API)
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Hierarchy</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">Structure diagram</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-text"><code>Ad account (adAccount)
+  └── Campaign (campaign)        ← advertising objective (objective) unit
+        └── Ad group (adSet)      ← targeting / budget / placement
+              └── Creative (creative)</code></pre>
+        </div>
+      </div>
+
+      <!-- Campaign Creation -->
+      <div class="subsection" id="campaign">
+        <h3 class="subsection-title">Campaign Creation — 4 Pre-Queries</h3>
+        <p>Before creating a campaign, you must first query the following IDs depending on the objective.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Pre-Query API</th><th>Value Obtained</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Representative URL List API</td><td><code>urlNo</code> (representative URL ID)</td></tr>
+              <tr><td>Brand List API</td><td><code>brandNo</code> (brand ID)</td></tr>
+              <tr><td>Conversion Tracking Target List API</td><td><code>conversionUrlNo</code> (conversion ID)</td></tr>
+              <tr><td>Catalog List API</td><td><code>catalogId</code> (catalog ID)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-small">You then create the campaign with the [Create Campaign API]. A campaign budget optimization (CBO) option change API is also supported.</p>
+      </div>
+
+      <!-- Campaign Objective -->
+      <div class="subsection" id="objective">
+        <h3 class="subsection-title">Campaign Objective (CampaignObjective)</h3>
+        <p>Required request parameters differ depending on the campaign objective.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>enum Value</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>CONVERSION</code></td><td>Website Conversion</td></tr>
+              <tr><td><code>WEB_SITE_TRAFFIC</code></td><td>Awareness &amp; Traffic</td></tr>
+              <tr><td><code>INSTALL_APP</code></td><td>App Conversion</td></tr>
+              <tr><td><code>WATCH_VIDEO</code></td><td>Video Views</td></tr>
+              <tr><td><code>CATALOG</code></td><td>Catalog Sales</td></tr>
+              <tr><td><code>SHOPPING</code></td><td>Shopping Promotion</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="warning-box">
+          ⚠️ <strong>AdVoost Shopping is not supported via the API.</strong> The <code>SHOPPING</code> objective above is a separate item unrelated to AdVoost Shopping, and AdVoost Shopping products themselves cannot be operated via the API.
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Creative Type (CreativeType)</h3>
+        <ul class="bullet-list">
+          <li><code>SINGLE_IMAGE</code> (native image) · <code>MULTIPLE_IMAGE</code> (collection) · <code>SINGLE_VIDEO</code> (video) · <code>IMAGE_BANNER</code> (image banner) · <code>CATALOG</code> (catalog)</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 7 -->
+    <section class="section" id="ch7">
+      <h2 class="section-title">
+        <span class="section-num">7</span>
+        Performance API
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Real-Time Performance Retrieval</h3>
+        <ul class="bullet-list">
+          <li>Retrieve the real-time performance of a specific <strong>ad account / campaign / ad group / creative</strong></li>
+          <li>A key feature is that performance data is provided at the <strong>creative level</strong> without separate aggregation</li>
+        </ul>
+        <p class="text-small">For detailed response specs such as metrics and periods, refer to the <a href="https://naver-ad-api.github.io/developers/api/performance" target="_blank">Performance API specification</a> in the official docs.</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 8 -->
+    <section class="section" id="ch8">
+      <h2 class="section-title">
+        <span class="section-num">8</span>
+        Audience Management API (Custom Target)
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Customer File Target</h3>
+        <ul class="bullet-list">
+          <li>Upload a list of ad identifiers (adid) to register and update a <strong>customer file target</strong>, and add or remove some adids</li>
+          <li>A registered customer file is used as an <strong>audience target for an ad group</strong></li>
+          <li>You can register a callback URL to track validation and upload results</li>
+        </ul>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Item</th><th>Limit</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Single upload size</td><td>Up to 100MB</td></tr>
+              <tr><td>Cumulative size</td><td>Can be added up to 600MB</td></tr>
+              <tr><td>Upload timeout</td><td>20 seconds</td></tr>
+              <tr><td>Duplicate requests</td><td>Duplicate requests with the same <code>adidLibraryNo</code> are not allowed until analysis is complete</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 9 -->
+    <section class="section" id="ch9">
+      <h2 class="section-title">
+        <span class="section-num">9</span>
+        Operating Notes &amp; FAQ
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Frequently Asked Questions</h3>
+        <ul class="bullet-list">
+          <li><strong>Authentication errors:</strong> First check access token expiration/validity and the timing of service terms agreement</li>
+          <li><strong>Response field meanings:</strong> Check the response field descriptions in each API menu</li>
+          <li><strong>Manager account permissions:</strong> Use the <code>AccessManagerAccountNo</code> header when making requests to ad accounts under a management account</li>
+        </ul>
+      </div>
+
+      <div class="warning-box">
+        ⚠️ <strong>Once again — AdVoost Shopping is not supported via the API.</strong> Operate AdVoost Shopping products in the ad management platform (UI).
+      </div>
+
+      <div class="highlight-box">
+        📌 This guide is based on the beta version; check the official docs for the latest endpoints and parameters.<br />
+        <a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    GFA API Official Docs: <a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+    &nbsp;|&nbsp;
+    Naver Developers: <a href="https://developers.naver.com" target="_blank">developers.naver.com</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

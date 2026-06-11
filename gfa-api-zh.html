@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>效果型展示广告（GFA）API设置与运营 — Naver搜索广告API指南</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a href="index-zh.html" class="nav-logo">
+    <span class="logo-mark">N</span>
+    <span class="logo-text">Naver搜索广告API入门指南</span>
+  </a>
+  <ul class="nav-menu">
+    <li class="nav-item">
+      <span class="nav-link">Powerlink <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="powerlink-understanding-zh.html">概念介绍</a>
+        <a href="powerlink-api-zh.html">API设置与运营</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link">购物搜索广告 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="shopping-understanding-zh.html">概念介绍</a>
+        <a href="shopping-api-zh.html">API设置与运营</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link active">GFA <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-understanding-zh.html">概念介绍</a>
+        <a href="gfa-api-zh.html">API设置与运营</a>
+        <a href="gfa-sa-comparison-zh.html">与SA API的差异</a>
+      </div>
+    </li>
+    <li class="nav-item lang-switcher">
+      <span class="nav-link">🌐 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-api.html">한국어</a>
+        <a href="gfa-api-en.html">English</a>
+        <a href="gfa-api-zh.html" class="lang-active">中文</a>
+      </div>
+    </li>
+  </ul>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Page Header -->
+<header class="page-header">
+  <div class="badge">效果型展示广告 · API</div>
+  <h1>API设置与运营</h1>
+  <p>结合curl示例，从效果型展示广告（GFA）API的权限申请、认证、广告账户·广告系列·素材管理、成效查询到潜在客户定向管理，逐步进行说明。</p>
+</header>
+
+<!-- Content Wrapper -->
+<div class="content-wrap">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <h3>目录</h3>
+    <ul>
+      <li><a href="#ch1">CH 1. 前期准备 &amp; 权限申请</a></li>
+      <li><a href="#ch2">CH 2. 支持范围 &amp; 限制事项</a></li>
+      <li><a href="#ch3">CH 3. API基础结构</a></li>
+      <li><a href="#ch4">CH 4. 认证 (Authentication)</a></li>
+      <li><a href="#ch5">CH 5. 广告账户API</a></li>
+      <li><a href="#ch6">CH 6. 广告结构API</a></li>
+      <li class="sub"><a href="#campaign">广告系列创建</a></li>
+      <li class="sub"><a href="#objective">广告系列目的</a></li>
+      <li><a href="#ch7">CH 7. 成效查询API</a></li>
+      <li><a href="#ch8">CH 8. 潜在客户管理API</a></li>
+      <li><a href="#ch9">CH 9. 运营参考 &amp; FAQ</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <p class="text-small" style="margin-bottom:20px;">来源：Naver效果型展示广告API官方文档 (naver-ad-api.github.io/developers) · 测试版</p>
+
+    <!-- CH 1 -->
+    <section class="section" id="ch1">
+      <h2 class="section-title">
+        <span class="section-num">1</span>
+        前期准备 &amp; 权限申请
+      </h2>
+
+      <div class="warning-box">
+        ⚠️ <strong>GFA API 需通过官方合作伙伴（代理商）获得权限后方可使用。</strong><br />
+        目前处于<strong>测试版期间</strong>，仅部分账户可申请，且仅允许「官方合作伙伴提交使用申请」。经管理员（Naver）批准后授予API权限。
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">STEP 1. 在Naver开发者中心注册应用</h3>
+        <ol class="steps-list">
+          <li>Naver开发者中心（<a href="https://developers.naver.com" target="_blank">developers.naver.com</a>） → [Application] → [应用注册]</li>
+          <li>同意使用条款后进行手机认证，输入公司名称</li>
+          <li><strong>在使用的API中务必选择「Naver登录」</strong></li>
+        </ol>
+        <div class="warning-box">
+          ⚠️ 使用效果型DA API时，<strong>无需</strong>在Naver登录API中设置的姓名、邮箱等<strong>提供信息（个人信息）项目</strong>。若选择了提供信息项目，Client ID的使用可能会受到限制。
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">STEP 2. 发放 Client ID / Client Secret</h3>
+        <p>完成应用注册后，将发放<code>Client ID</code>与<code>Client Secret</code>。</p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">STEP 3. 申请使用GFA API</h3>
+        <ol class="steps-list">
+          <li>在已注册的应用中复制<code>Client ID</code>值</li>
+          <li>访问Naver效果型展示广告站点 → <strong>代表管理账户 → 设置 → API管理</strong>菜单</li>
+          <li>在[API使用申请]中注册<code>Client ID</code> → 经管理员批准后授予权限</li>
+        </ol>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">STEP 4. Naver登录联动（发放访问令牌）</h3>
+        <p>通过Naver账号登录（OAuth 2.0）联动，发放用于API调用的<strong>访问令牌</strong>。</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 2 -->
+    <section class="section" id="ch2">
+      <h2 class="section-title">
+        <span class="section-num">2</span>
+        支持范围 &amp; 限制事项
+      </h2>
+
+      <div class="warning-box">
+        ⚠️ <strong>AdVoost购物不支持通过API运营。</strong><br />
+        GFA API可管理效果型展示广告的广告账户·广告系列·素材·成效·定向，但<strong>AdVoost购物商品不属于API联动对象。</strong>该商品需在广告管理平台（UI）中直接运营。
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">通过API可以做的事</h3>
+        <ul class="bullet-list">
+          <li>广告账户列表·信息查询（含权限级别）</li>
+          <li>广告系列 · 广告组(adSet) · 素材(creative) 的创建·修改·查询</li>
+          <li>实时成效查询（账户/广告系列/广告组/素材单位）</li>
+          <li>潜在客户定向（客户文件等）管理</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 3 -->
+    <section class="section" id="ch3">
+      <h2 class="section-title">
+        <span class="section-num">3</span>
+        API基础结构
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Base URL</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">Base URL</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-text"><code>https://openapi.naver.com/v1/ad-api/{version}/[端点]
+
+· v1 ：固定值
+· {version} ：各API分别定义的版本（默认值 "1.0"）</code></pre>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">广告结构术语映射</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>UI名称</th><th>API名称</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>广告账户</td><td><code>adAccount</code></td><td>运营广告的最顶层账户单位</td></tr>
+              <tr><td>广告系列</td><td><code>campaign</code></td><td>广告目的(objective)单位</td></tr>
+              <tr><td>广告组</td><td><code>adSet</code></td><td>定向·预算·版位策略单位</td></tr>
+              <tr><td>素材</td><td><code>creative</code></td><td>实际展示的广告素材</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 4 -->
+    <section class="section" id="ch4">
+      <h2 class="section-title">
+        <span class="section-num">4</span>
+        认证 (Authentication)
+      </h2>
+
+      <div class="highlight-box">
+        <strong>认证方式：</strong>基于Naver登录的<strong>OAuth 2.0 Access Token</strong>。在所有请求的<code>Authorization</code>头中包含Bearer令牌。
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">必填HTTP头</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>头</th><th>说明</th><th>必填</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Authorization</code></td><td><code>Bearer {访问令牌}</code> 格式</td><td>始终必填</td></tr>
+              <tr><td><code>AccessManagerAccountNo</code></td><td>管理账户编号 — 仅在向管理账户下属广告账户发起请求时需要</td><td>条件性</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-small">若是广告账户的直接成员，则无需<code>AccessManagerAccountNo</code>。</p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">请求示例 — 查询管理账户下属广告账户的广告系列</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">bash / curl</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-bash"><code>curl -X GET 'https://openapi.naver.com/v1/ad-api/1.0/adAccounts/456/campaigns' \
+  -H 'AccessManagerAccountNo: 123' \
+  -H 'Authorization: Bearer {访问令牌}'
+
+# 查询管理账户(123)下属广告账户(456)的广告系列列表</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 5 -->
+    <section class="section" id="ch5">
+      <h2 class="section-title">
+        <span class="section-num">5</span>
+        广告账户API (Account API)
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">提供功能</h3>
+        <ul class="bullet-list">
+          <li><strong>查询我的广告账户列表：</strong>查询作为直接成员被授予权限级别（<code>AccountRole</code>）的广告账户列表（支持分页）</li>
+          <li><strong>查询广告账户信息：</strong>查询特定广告账户的详细信息（可通过上级管理账户间接访问）</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 6 -->
+    <section class="section" id="ch6">
+      <h2 class="section-title">
+        <span class="section-num">6</span>
+        广告结构API (Ad API)
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">层级结构</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">结构图</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-text"><code>广告账户 (adAccount)
+  └── 广告系列 (campaign)        ← 广告目的(objective)单位
+        └── 广告组 (adSet)        ← 定向 / 预算 / 版位
+              └── 素材 (creative)</code></pre>
+        </div>
+      </div>
+
+      <!-- 广告系列创建 -->
+      <div class="subsection" id="campaign">
+        <h3 class="subsection-title">广告系列创建 — 4项前置查询</h3>
+        <p>在创建广告系列之前，需根据目的先行查询以下ID。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>前置查询API</th><th>获取值</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>代表URL列表API</td><td><code>urlNo</code> (代表URL ID)</td></tr>
+              <tr><td>品牌列表API</td><td><code>brandNo</code> (品牌ID)</td></tr>
+              <tr><td>转化追踪对象列表API</td><td><code>conversionUrlNo</code> (转化ID)</td></tr>
+              <tr><td>目录列表API</td><td><code>catalogId</code> (目录ID)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-small">随后通过[创建广告系列API]创建广告系列。同时支持广告系列预算优化(CBO)选项变更API。</p>
+      </div>
+
+      <!-- 广告系列目的 -->
+      <div class="subsection" id="objective">
+        <h3 class="subsection-title">广告系列目的 (CampaignObjective)</h3>
+        <p>根据广告系列目的，必填请求参数各不相同。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>enum 值</th><th>含义</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>CONVERSION</code></td><td>网站转化</td></tr>
+              <tr><td><code>WEB_SITE_TRAFFIC</code></td><td>知名度及流量</td></tr>
+              <tr><td><code>INSTALL_APP</code></td><td>App转化</td></tr>
+              <tr><td><code>WATCH_VIDEO</code></td><td>视频观看</td></tr>
+              <tr><td><code>CATALOG</code></td><td>目录销售</td></tr>
+              <tr><td><code>SHOPPING</code></td><td>购物推广</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="warning-box">
+          ⚠️ <strong>AdVoost购物不支持API运营。</strong>上述<code>SHOPPING</code>目的是与AdVoost购物无关的独立项目，而AdVoost购物商品本身无法通过API运营。
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">素材类型 (CreativeType)</h3>
+        <ul class="bullet-list">
+          <li><code>SINGLE_IMAGE</code> (原生图片) · <code>MULTIPLE_IMAGE</code> (合集) · <code>SINGLE_VIDEO</code> (视频) · <code>IMAGE_BANNER</code> (图片横幅) · <code>CATALOG</code> (目录)</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 7 -->
+    <section class="section" id="ch7">
+      <h2 class="section-title">
+        <span class="section-num">7</span>
+        成效查询API (Performance API)
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">实时成效查询</h3>
+        <ul class="bullet-list">
+          <li>查询特定<strong>广告账户 / 广告系列 / 广告组 / 素材</strong>的实时成效</li>
+          <li>特点是无需额外汇总即可<strong>以素材为单位</strong>提供成效数据</li>
+        </ul>
+        <p class="text-small">指标、期间等详细响应规格请参考官方文档的<a href="https://naver-ad-api.github.io/developers/api/performance" target="_blank">Performance API规格说明</a>。</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 8 -->
+    <section class="section" id="ch8">
+      <h2 class="section-title">
+        <span class="section-num">8</span>
+        潜在客户管理API (Custom Target)
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">客户文件定向</h3>
+        <ul class="bullet-list">
+          <li>通过上传广告标识符(adid)列表来注册·修改<strong>客户文件定向</strong>，可添加·移除部分adid</li>
+          <li>已注册的客户文件可作为<strong>广告组的潜在客户定向</strong>使用</li>
+          <li>可注册回调URL以追踪有效性检查·上传结果</li>
+        </ul>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>项目</th><th>限制</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>单次上传容量</td><td>最大100MB</td></tr>
+              <tr><td>累计容量</td><td>最多可追加至600MB</td></tr>
+              <tr><td>上传超时</td><td>20秒</td></tr>
+              <tr><td>重复请求</td><td>在分析完成前，不可对同一<code>adidLibraryNo</code>重复请求</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- CH 9 -->
+    <section class="section" id="ch9">
+      <h2 class="section-title">
+        <span class="section-num">9</span>
+        运营参考 &amp; FAQ
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">常见问题</h3>
+        <ul class="bullet-list">
+          <li><strong>认证错误：</strong>请先确认访问令牌的过期/有效性、以及服务使用条款的同意时点问题</li>
+          <li><strong>响应字段含义：</strong>在各API菜单中确认响应字段说明</li>
+          <li><strong>管理账户权限：</strong>向管理账户下属广告账户发起请求时使用<code>AccessManagerAccountNo</code>头</li>
+        </ul>
+      </div>
+
+      <div class="warning-box">
+        ⚠️ <strong>再次提醒 — AdVoost购物不支持API运营。</strong>AdVoost购物商品的运营请在广告管理平台（UI）中进行。
+      </div>
+
+      <div class="highlight-box">
+        📌 本指南以测试版为准，最新的端点·参数请查阅官方文档。<br />
+        <a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    GFA API官方文档：<a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+    &nbsp;|&nbsp;
+    Naver开发者中心：<a href="https://developers.naver.com" target="_blank">developers.naver.com</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

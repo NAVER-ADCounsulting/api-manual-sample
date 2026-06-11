@@ -1015,6 +1015,11 @@ pre[class*="language-"] {
   color: #b45309;
 }
 
+.srp-tag--gfa {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
 .srp-type {
   font-size: 10px;
   font-weight: 600;

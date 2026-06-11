@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Differences Between SA API and GFA API — Naver Search Ads API Guide</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a href="index-en.html" class="nav-logo">
+    <span class="logo-mark">N</span>
+    <span class="logo-text">Naver Search Ads API Guide</span>
+  </a>
+  <ul class="nav-menu">
+    <li class="nav-item">
+      <span class="nav-link">Powerlink <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="powerlink-understanding-en.html">Overview</a>
+        <a href="powerlink-api-en.html">API Setup &amp; Operations</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link">Shopping Search Ads <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="shopping-understanding-en.html">Overview</a>
+        <a href="shopping-api-en.html">API Setup &amp; Operations</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link active">GFA <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-understanding-en.html">Overview</a>
+        <a href="gfa-api-en.html">API Setup &amp; Operations</a>
+        <a href="gfa-sa-comparison-en.html">Differences from SA API</a>
+      </div>
+    </li>
+    <li class="nav-item lang-switcher">
+      <span class="nav-link">🌐 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-sa-comparison.html">한국어</a>
+        <a href="gfa-sa-comparison-en.html" class="lang-active">English</a>
+        <a href="gfa-sa-comparison-zh.html">中文</a>
+      </div>
+    </li>
+  </ul>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Page Header -->
+<header class="page-header">
+  <div class="badge">Performance Display Ads · API Comparison</div>
+  <h1>Differences Between SA API and GFA API</h1>
+  <p>The Search Ads (SA) API and the Performance Display Ads (GFA) API differ in authentication model, access provisioning, and structure. We summarize the differences based on the two official documents.</p>
+</header>
+
+<!-- Content Wrapper -->
+<div class="content-wrap">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <h3>Contents</h3>
+    <ul>
+      <li><a href="#overview">Comparison at a Glance</a></li>
+      <li><a href="#auth">Key Difference ① Authentication Model</a></li>
+      <li><a href="#permission">Key Difference ② Access Provisioning</a></li>
+      <li><a href="#note">Integration Notes</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <p class="text-small" style="margin-bottom:20px;">Source: SA — naver.github.io/searchad-apidoc · GFA — naver-ad-api.github.io/developers</p>
+
+    <!-- Comparison at a glance -->
+    <section class="section" id="overview">
+      <h2 class="section-title">
+        <span class="section-num">1</span>
+        Comparison at a Glance
+      </h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Category</th><th>SA API (Search Ads)</th><th>GFA API (Performance DA)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Authentication method</strong></td><td><strong>HMAC-SHA256 signature</strong> based on API KEY + SECRET KEY</td><td><strong>OAuth 2.0 (Naver Login) Access Token</strong> (Bearer)</td></tr>
+            <tr><td><strong>Authentication headers</strong></td><td><code>X-Timestamp</code> · <code>X-API-KEY</code> · <code>X-Customer</code> · <code>X-Signature</code></td><td><code>Authorization: Bearer</code> (+ conditional <code>AccessManagerAccountNo</code>)</td></tr>
+            <tr><td><strong>Access provisioning</strong></td><td>Advertiser <strong>issues the license directly</strong> in the ad system</td><td><strong>Official partner (agency) application + Naver administrator approval (beta)</strong></td></tr>
+            <tr><td><strong>App registration</strong></td><td>Not needed (the ad system issues the keys)</td><td><strong>developers.naver.com app registration</strong> (Client ID/Secret) required</td></tr>
+            <tr><td><strong>Base URL</strong></td><td><code>https://api.searchad.naver.com</code></td><td><code>https://openapi.naver.com/v1/ad-api/{version}</code></td></tr>
+            <tr><td><strong>Account identification</strong></td><td><code>X-Customer</code> (Customer ID)</td><td><code>AccessManagerAccountNo</code> (when requesting an ad account under a management account)</td></tr>
+            <tr><td><strong>Structure terminology</strong></td><td>Campaign / Ad group / Keyword·Creative</td><td><code>campaign</code> / <code>adSet</code> / <code>creative</code></td></tr>
+            <tr><td><strong>Official docs</strong></td><td>naver.github.io/searchad-apidoc</td><td>naver-ad-api.github.io/developers</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Authentication model -->
+    <section class="section" id="auth">
+      <h2 class="section-title">
+        <span class="section-num">2</span>
+        Key Difference ① Authentication Model
+      </h2>
+
+      <div class="highlight-box">
+        SA uses a <strong>KEY+SECRET-based direct signature (HMAC)</strong> method, while GFA uses a <strong>Naver Login OAuth token</strong> method. Because the authentication structures themselves differ, <strong>you cannot reuse SA integration code as-is for GFA.</strong>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">SA API — HMAC Signature Headers</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">bash / curl</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/ncc/campaigns" \
+  -H "X-Timestamp: 1712800000000" \
+  -H "X-API-KEY: {issued API KEY}" \
+  -H "X-Customer: {Customer ID}" \
+  -H "X-Signature: {HMAC-SHA256 signature value}"</code></pre>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">GFA API — OAuth Access Token Headers</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">bash / curl</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-bash"><code>curl -X GET 'https://openapi.naver.com/v1/ad-api/1.0/adAccounts/456/campaigns' \
+  -H 'AccessManagerAccountNo: 123' \
+  -H 'Authorization: Bearer {access token}'</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Access provisioning -->
+    <section class="section" id="permission">
+      <h2 class="section-title">
+        <span class="section-num">3</span>
+        Key Difference ② Access Provisioning
+      </h2>
+
+      <ul class="bullet-list">
+        <li><strong>SA API:</strong> The advertiser applies for and issues the API license directly within the ad system → anyone can use it</li>
+        <li><strong>GFA API:</strong> A <strong>beta</strong> state requiring a usage application through an <strong>official partner (agency)</strong> plus Naver <strong>administrator approval</strong> → preceded by developers.naver.com app registration (Client ID)</li>
+      </ul>
+      <div class="warning-box">
+        ⚠️ Unlike the SA API, the GFA API is <strong>not self-issued</strong> and has a barrier to access.
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Integration notes -->
+    <section class="section" id="note">
+      <h2 class="section-title">
+        <span class="section-num">4</span>
+        Integration Notes
+      </h2>
+
+      <ul class="bullet-list">
+        <li>Because the authentication models differ, <strong>SA and GFA must each be integrated separately</strong> (a shared client cannot be reused).</li>
+        <li>SA specifies the target account with <code>X-Customer</code>, while GFA uses <code>AccessManagerAccountNo</code>.</li>
+        <li>The Base URL and structure terminology (keyword vs. <code>creative</code>) differ, so take care with endpoint mapping.</li>
+      </ul>
+
+      <div class="highlight-box">
+        📌 Check each official document for detailed specs. SA: <a href="https://naver.github.io/searchad-apidoc" target="_blank">naver.github.io/searchad-apidoc</a> · GFA: <a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    SA API: <a href="https://naver.github.io/searchad-apidoc" target="_blank">naver.github.io/searchad-apidoc</a>
+    &nbsp;|&nbsp;
+    GFA API: <a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -133,18 +133,27 @@ function initSearch() {
       { url: 'powerlink-api.html',            tag: '파워링크',    tagClass: 'powerlink', title: 'API로 세팅 및 운영하기',  type: 'api' },
       { url: 'shopping-understanding.html',   tag: '쇼핑검색광고', tagClass: 'shopping',  title: '쇼핑검색광고 이해하기',   type: 'overview' },
       { url: 'shopping-api.html',             tag: '쇼핑검색광고', tagClass: 'shopping',  title: 'API로 세팅 및 운영하기',  type: 'api' },
+      { url: 'gfa-understanding.html',        tag: 'GFA',         tagClass: 'gfa',       title: '성과형 디스플레이광고(GFA) 이해하기', type: 'overview' },
+      { url: 'gfa-api.html',                  tag: 'GFA',         tagClass: 'gfa',       title: 'API로 세팅 및 운영하기',  type: 'api' },
+      { url: 'gfa-sa-comparison.html',        tag: 'GFA',         tagClass: 'gfa',       title: 'SA API와 GFA API 차이점', type: 'api' },
     ],
     en: [
       { url: 'powerlink-understanding-en.html',  tag: 'Powerlink',           tagClass: 'powerlink', title: 'Powerlink Overview',          type: 'overview' },
       { url: 'powerlink-api-en.html',            tag: 'Powerlink',           tagClass: 'powerlink', title: 'API Setup & Operations',       type: 'api' },
       { url: 'shopping-understanding-en.html',   tag: 'Shopping Search Ads', tagClass: 'shopping',  title: 'Shopping Search Ads Overview', type: 'overview' },
       { url: 'shopping-api-en.html',             tag: 'Shopping Search Ads', tagClass: 'shopping',  title: 'API Setup & Operations',       type: 'api' },
+      { url: 'gfa-understanding-en.html',        tag: 'GFA',                 tagClass: 'gfa',       title: 'Performance Display Ads (GFA) Overview', type: 'overview' },
+      { url: 'gfa-api-en.html',                  tag: 'GFA',                 tagClass: 'gfa',       title: 'API Setup & Operations',       type: 'api' },
+      { url: 'gfa-sa-comparison-en.html',        tag: 'GFA',                 tagClass: 'gfa',       title: 'Differences from SA API',      type: 'api' },
     ],
     zh: [
       { url: 'powerlink-understanding-zh.html',  tag: 'Powerlink',  tagClass: 'powerlink', title: 'Powerlink概念介绍',    type: 'overview' },
       { url: 'powerlink-api-zh.html',            tag: 'Powerlink',  tagClass: 'powerlink', title: 'API设置与运营',        type: 'api' },
       { url: 'shopping-understanding-zh.html',   tag: '购物搜索广告', tagClass: 'shopping', title: '购物搜索广告概念介绍', type: 'overview' },
       { url: 'shopping-api-zh.html',             tag: '购物搜索广告', tagClass: 'shopping', title: 'API设置与运营',        type: 'api' },
+      { url: 'gfa-understanding-zh.html',        tag: 'GFA',        tagClass: 'gfa',      title: '效果型展示广告（GFA）概念介绍', type: 'overview' },
+      { url: 'gfa-api-zh.html',                  tag: 'GFA',        tagClass: 'gfa',      title: 'API设置与运营',        type: 'api' },
+      { url: 'gfa-sa-comparison-zh.html',        tag: 'GFA',        tagClass: 'gfa',      title: '与SA API的差异',       type: 'api' },
     ],
   };
 

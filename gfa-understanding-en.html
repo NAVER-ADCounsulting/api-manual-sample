@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Performance Display Ads (GFA) Overview — Naver Search Ads API Guide</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a href="index-en.html" class="nav-logo">
+    <span class="logo-mark">N</span>
+    <span class="logo-text">Naver Search Ads API Guide</span>
+  </a>
+  <ul class="nav-menu">
+    <li class="nav-item">
+      <span class="nav-link">Powerlink <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="powerlink-understanding-en.html">Overview</a>
+        <a href="powerlink-api-en.html">API Setup &amp; Operations</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link">Shopping Search Ads <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="shopping-understanding-en.html">Overview</a>
+        <a href="shopping-api-en.html">API Setup &amp; Operations</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link active">GFA <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-understanding-en.html">Overview</a>
+        <a href="gfa-api-en.html">API Setup &amp; Operations</a>
+        <a href="gfa-sa-comparison-en.html">Differences from SA API</a>
+      </div>
+    </li>
+    <li class="nav-item lang-switcher">
+      <span class="nav-link">🌐 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-understanding.html">한국어</a>
+        <a href="gfa-understanding-en.html" class="lang-active">English</a>
+        <a href="gfa-understanding-zh.html">中文</a>
+      </div>
+    </li>
+  </ul>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Page Header -->
+<header class="page-header">
+  <div class="badge">Performance Display Ads · GFA</div>
+  <h1>Performance Display Ads (GFA) Overview</h1>
+  <p>From Search Ads (SA) to Display Ads (DA). A one-page overview of performance DA concepts, the SA↔DA virtuous cycle, NDA (Naver Dynamic Ads), precise retargeting, and operating strategies by brand awareness level.</p>
+</header>
+
+<!-- Content Wrapper -->
+<div class="content-wrap">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <h3>Contents</h3>
+    <ul>
+      <li><a href="#section1">SECTION 1. What Are Performance DA?</a></li>
+      <li><a href="#section2">SECTION 2. Why Naver DA</a></li>
+      <li><a href="#section3">SECTION 3. Getting Started with NDA</a></li>
+      <li class="sub"><a href="#section3-tip">Tips to Get the Most Out of NDA</a></li>
+      <li><a href="#section4">SECTION 4. Campaign Objectives &amp; Placements</a></li>
+      <li><a href="#section5">SECTION 5. Precise Targeting</a></li>
+      <li class="sub"><a href="#section5-retarget">3 Types of Retargeting</a></li>
+      <li class="sub"><a href="#section5-keyword">Custom (Keyword) Targeting</a></li>
+      <li><a href="#section6">SECTION 6. Operating Strategies by Brand Awareness</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <p class="text-small" style="margin-bottom:20px;">Source: NaverAds_Playbook_SA to DA.pdf (Naver Channel Consulting, 2025)</p>
+
+    <!-- SECTION 1 -->
+    <section class="section" id="section1">
+      <h2 class="section-title">
+        <span class="section-num">1</span>
+        What Are Performance DA?
+      </h2>
+
+      <div class="highlight-box">
+        <strong>Key message:</strong> Performance display ads (GFA) are display ads shown across Naver inventory in banner, video, and catalog formats, <strong>operated to drive conversion performance through targeting and AI optimization</strong>.
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">The Limits of SA and the Need for DA</h3>
+        <ul class="bullet-list">
+          <li>Because Search Ads (SA) are <strong>based on search volume</strong>, there is a limit to how much advertisers can scale their volume.</li>
+          <li>Even if you capture demand for brand, generic, and competitor keywords, you cannot reach potential customers who are not searching.</li>
+          <li>DA reaches users who are not searching, playing the role of <strong>growing awareness and search volume itself</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">The SA ↔ DA Virtuous Cycle</h3>
+        <p>When running DA, you gain not only direct conversions but also increased awareness and search volume. This <strong>virtuous cycle</strong>, in which DA improves the volume and efficiency of SA, is the core of performance marketing.</p>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">Virtuous cycle</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-text"><code>SA (Search Ads)  ──  Revenue↑ + Reinvestment↑  ──▶  DA (Display Ads)
+   ▲                                                      │
+   │  Search volume↑ + CTR↑       Impressions↑ + Awareness↑│
+   └──────────────────────────────────────────────────────┘</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 2 -->
+    <section class="section" id="section2">
+      <h2 class="section-title">
+        <span class="section-num">2</span>
+        Why Naver DA
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">A Growing Performance DA Market</h3>
+        <ul class="bullet-list">
+          <li>While the mature SA market has seen somewhat slower growth, the <strong>performance DA market continues to trend upward</strong> and has greater growth potential.</li>
+          <li>Through steady ad-product improvements over the past six years, the influx of new advertisers and new inventory (placements) keeps increasing.</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">A Platform Where Content, Search, and Commerce Are All Connected</h3>
+        <div class="highlight-box">
+          On Naver, <strong>content (blogs, Clip, webtoons) – search – commerce (Shopping, Pay, Membership)</strong> are all connected, making it a platform where the DA↔SA virtuous-cycle effect is maximized.
+        </div>
+      </div>
+
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 3 -->
+    <section class="section" id="section3">
+      <h2 class="section-title">
+        <span class="section-num">3</span>
+        Getting Started with NDA (Naver Dynamic Ads)
+      </h2>
+
+      <div class="highlight-box">
+        <strong>If DA is new to you, start with NDA (Naver Dynamic Ads).</strong> Using the Naver Shopping product database and user behavior data, it <strong>dynamically generates personalized ad creatives</strong>, so you can get started easily even without prior DA know-how.
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Three Strengths of NDA</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Strength</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Excellent efficiency</strong></td><td>Operated with a retargeting focus, it is a killer product with the best conversion performance among Naver DA products</td></tr>
+              <tr><td><strong>Low barrier to entry</strong></td><td>Any commerce advertiser with products listed on Naver Shopping can run it</td></tr>
+              <tr><td><strong>Minimal creative resources</strong></td><td>Creatives are auto-generated using the product database → no separate creative planning or production resources needed</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Eligible Advertisers (Phased Expansion)</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">Expansion history</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-text"><code>Brand Store ('22) ──▶ Smart Store ('23) ──▶ Own Mall ('24, MMP integration Q4)</code></pre>
+        </div>
+        <p class="text-small">Following Brand/Smart Store advertisers, own-mall advertisers and app advertisers listed on Naver Shopping can also run NDA.</p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Proven NDA Performance (vs. Banner Type on the Same Placement)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Metric</th><th>Change</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>CTR</td><td style="color:#03C75A;font-weight:700;">▲ 388%</td></tr>
+              <tr><td>CVR</td><td style="color:#03C75A;font-weight:700;">▲ 501%</td></tr>
+              <tr><td>ROAS</td><td style="color:#03C75A;font-weight:700;">▲ 565%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-small">October 2023, based on a comparison with other performance ads on the same NDA placement</p>
+      </div>
+
+      <!-- TIP -->
+      <div class="subsection" id="section3-tip">
+        <h3 class="subsection-title">4 Tips to Get the Most Out of NDA</h3>
+        <ol class="steps-list">
+          <li><strong>Use all products in your catalog in ads:</strong> The more products you have, the more you can build ads that account for diverse user needs. <strong>Note that if you have fewer than 4 products, the ad may not be shown at all.</strong></li>
+          <li><strong>Use images that clearly show product characteristics:</strong> If similar images appear in succession, users may not recognize the differences between products, lowering the response rate. Use dedicated ad images when needed.</li>
+          <li><strong>Run ads continuously:</strong> The AI delivery logic becomes more refined the longer you run ads. Intermittent runs restart optimization each time, so continuous operation is recommended.</li>
+          <li><strong>Expand your ad audience pool:</strong> Run non-targeted, select "all available placements," and use the "target expansion feature" to reach potential customers with similar interests.</li>
+        </ol>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 4 -->
+    <section class="section" id="section4">
+      <h2 class="section-title">
+        <span class="section-num">4</span>
+        Campaign Objectives &amp; Placements
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Campaign Objective</h3>
+        <p>You choose a campaign objective based on your advertising goal, and the optimization method and required settings differ by objective.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Campaign Objective</th><th>Use</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Catalog Sales</strong></td><td>Drives sales and conversions with dynamic creatives (NDA) based on the product database</td></tr>
+              <tr><td><strong>Website Conversion</strong></td><td>On-site conversion goals such as purchases or sign-ups</td></tr>
+              <tr><td><strong>Awareness &amp; Traffic</strong></td><td>Builds awareness and drives site visits</td></tr>
+              <tr><td><strong>Video Views</strong></td><td>Exposure and views of brand-message videos</td></tr>
+              <tr><td><strong>App Conversion</strong></td><td>Drives app conversions such as installs and launches</td></tr>
+              <tr><td><strong>Engagement</strong></td><td>Easy lead collection via a Naver profile auto-fill form (recommended for non-commerce advertisers)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Placements</h3>
+        <ul class="bullet-list">
+          <li><strong>Major placements:</strong> Naver main banner, feeds (Naver Feed / Band Feed), Smart Channel</li>
+          <li><strong>Various DA placements:</strong> Shopping DA, Video DA, Rolling Board, Branding DA, Sub DA, Special DA, Time Board, Topic Board DA, Integrated DA, and more</li>
+          <li><strong>Performance Network:</strong> Extended exposure to Naver's external affiliate placements</li>
+          <li>Selecting "all available placements" automatically reflects new placements as they are added, increasing your exposure opportunities.</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 5 -->
+    <section class="section" id="section5">
+      <h2 class="section-title">
+        <span class="section-num">5</span>
+        Precise Targeting
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">6 Major Targeting Categories</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Category</th><th>Target</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td rowspan="4">① Audience – Shopping Targets</td><td>Store Target ★</td><td>Users who triggered a specific event such as a visit or purchase at a Smart/Brand Store</td></tr>
+              <tr><td>Customer Journey Target ★</td><td>For Brand Stores, generated from cumulative user behavior data within Naver Shopping</td></tr>
+              <tr><td>Notification Subscriber Target</td><td>The audience subscribed to notifications for a specific Smart/Brand Store</td></tr>
+              <tr><td>CRM Marketing Target</td><td>Customer-group data from solutions subscribed to in the Shopping Smart Store Center</td></tr>
+              <tr><td rowspan="3">② Audience – My Data</td><td>Customer File</td><td>Registered by directly uploading a list of ad identifiers</td></tr>
+              <tr><td>MAT Target</td><td>Target integrated via the MAT service</td></tr>
+              <tr><td>Website Target ★</td><td>Users who triggered a specific event such as a visit or purchase on my website</td></tr>
+              <tr><td>③ Audience – Custom Target</td><td>Keyword Target</td><td>Content-usage behavior related to a user's areas of interest (based on keyword searches)</td></tr>
+              <tr><td>④ Audience – Lookalike Target</td><td>Lookalike Target</td><td>Audiences with behavior patterns similar to a seed such as a My Data target</td></tr>
+              <tr><td>⑤ Interests / Purchase Intent</td><td>Interests · Purchase intent</td><td>A user's areas of interest and intent to purchase a specific product</td></tr>
+              <tr><td>⑥ Demographics</td><td>Gender·Age · Extended demographics</td><td>Gender (male/female/unknown), ages 14 to 60+ (in 5-year increments), infant·toddler·parent targets, and more</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Retargeting -->
+      <div class="subsection" id="section5-retarget">
+        <h3 class="subsection-title">3 Types of Precise Retargeting Available Only on Naver ★</h3>
+        <p>High-efficiency DA operations are possible using Store Targets, Customer Journey Targets, and Website Targets.</p>
+
+        <div class="subsection">
+          <h3 class="subsection-title">① Store Target — Customer Segments by Event</h3>
+          <ul class="bullet-list">
+            <li>Targets customers who triggered a specific event at my store (period configurable from 1 to 180 days)</li>
+            <li>Event stages: <strong>Visit → Wishlist → Coupon issuance → Cart → Checkout start → Purchase complete</strong></li>
+            <li>Deliver stage-appropriate messages through segmentation by event action</li>
+          </ul>
+          <div class="highlight-box">
+            <strong>Success story:</strong> By raising the Store Target share to 47%, overall ad spend scaled up and ROAS rose 1.6x to a <strong>record of 250%</strong>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">② Customer Journey Target — Brand-Centered Audience (Brand Store ONLY)</h3>
+          <ul class="bullet-list">
+            <li>Includes not only my Brand Store visitors but also users who showed interest in or attempted to purchase my brand's products</li>
+            <li>Journey stages: <strong>Brand discovery → Brand interest → Purchase attempt → Purchase → Continued interest</strong></li>
+            <li>Example: Drive conversions by showing benefit-focused creatives to hesitant customers in the "brand interest ~ just before purchase" segment</li>
+          </ul>
+          <div class="highlight-box">
+            <strong>Success story (Desker Brand Week):</strong> Customer Journey Target <strong>CVR 3,319%</strong> (overwhelming compared to 421% for the purchase-intent target)
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">③ Website Target</h3>
+          <ul class="bullet-list">
+            <li>Retargets users who triggered a specific event such as a visit or purchase on my website (own mall)</li>
+            <li>Can also be used by own-mall advertisers without a store</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Custom Target -->
+      <div class="subsection" id="section5-keyword">
+        <h3 class="subsection-title">Custom (Keyword) Targeting — Naver ONLY</h3>
+        <p>Targeting that reaches customers based on keyword searches, leveraging Korea's largest search data.</p>
+        <ol class="steps-list">
+          <li><strong>Keyword selection:</strong> Select keywords with high impression OR conversion volume from your SA report</li>
+          <li><strong>Grouping:</strong> Classify by audience size and characteristics — <strong>a minimum target audience of 1,000 or more</strong>, classified by USP into own brand / competitor / generic (category)</li>
+          <li><strong>Creative alignment:</strong> Performance is best when creatives are set appropriately for each keyword target (e.g., capsule keyword → capsule creative)</li>
+        </ol>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 6 -->
+    <section class="section" id="section6">
+      <h2 class="section-title">
+        <span class="section-num">6</span>
+        Operating Strategies by Brand Awareness
+      </h2>
+      <p>Because the strengths and limits of SA differ by brand awareness, the role and objective of DA must be defined differently.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>① High-Awareness Commerce</th>
+              <th>② Low-Awareness Commerce</th>
+              <th>③ Non-Commerce (e.g., Lead Collection)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>DA goal</strong></td><td>Expand market share &amp; secure loyal customers</td><td>Acquire new customers &amp; expand brand search volume</td><td>Acquire new customers &amp; expand brand search volume</td></tr>
+            <tr><td><strong>Recommended campaign mix</strong></td><td>Catalog + Conversion</td><td>Traffic / Conversion</td><td>Traffic + Engagement</td></tr>
+            <tr><td><strong>Recommended targeting</strong></td><td>Retargeting (Website·Store)</td><td>Purchase intent / Interests</td><td>Keyword custom target</td></tr>
+            <tr><td><strong>Recommended daily budget</strong></td><td>10x the conversion CPA</td><td>10x the conversion CPA</td><td>10x the conversion CPA</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">① High-Awareness Commerce Brands</h3>
+        <ul class="bullet-list">
+          <li>Defending market share and managing customers are the top priority</li>
+          <li>Run the highly efficient NDA (Catalog Sales) as the first priority, <strong>centered on retargeting ads</strong></li>
+          <li>When scaling, target new markets with purchase-intent/interest targets</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">② Low-Awareness Commerce Brands — Market Pioneers</h3>
+        <ul class="bullet-list">
+          <li>With a small own-market size, expansion into new markets is essential. Early on, <strong>securing an ad audience pool in a short period</strong> matters more than efficiency</li>
+          <li><strong>Strategy ①</strong> Gather an audience with traffic (purchase intent/interests) to expand catalog volume</li>
+          <li><strong>Strategy ②</strong> Secure highly engaged users with conversion (keyword custom target) to expand catalog volume</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">③ Non-Commerce Brands (Finance, Insurance, Games, Legal, Clinics, etc.)</h3>
+        <ul class="bullet-list">
+          <li>Often aimed at collecting leads and acquiring new users, with active push marketing among competitors</li>
+          <li>Since the target group is clear, <strong>actively use keyword custom targets</strong>, and we recommend also testing Engagement campaigns in parallel</li>
+          <li>Engagement ads: Seamless lead collection within the Naver environment via Naver profile auto-fill</li>
+        </ul>
+      </div>
+
+      <div class="highlight-box">
+        <strong>Best Practice:</strong> The common success pattern is to build an audience with an initial traffic campaign, then expand volume by increasing the share of conversion and catalog. (Cosmetics C: ad spend expanded 580% YoY · ROAS improved 61% / Small appliances D: conversions ▲1,693%, etc.)
+      </div>
+    </section>
+
+    <!-- Next Page -->
+    <div style="margin-top:40px;padding:24px;background:var(--bg-alt);border-radius:var(--radius);border:1px solid var(--border);text-align:center;">
+      <p style="margin-bottom:14px;font-weight:600;color:var(--text);">Once you understand performance DA concepts, move on to the next step.</p>
+      <a href="gfa-api-en.html" class="hero-cta" style="display:inline-flex;">API Setup &amp; Operations →</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    GFA API Official Docs: <a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+    &nbsp;|&nbsp;
+    Naver Developers: <a href="https://developers.naver.com" target="_blank">developers.naver.com</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

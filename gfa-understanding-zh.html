@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>效果型展示广告（GFA）概念介绍 — Naver搜索广告API指南</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a href="index-zh.html" class="nav-logo">
+    <span class="logo-mark">N</span>
+    <span class="logo-text">Naver搜索广告API入门指南</span>
+  </a>
+  <ul class="nav-menu">
+    <li class="nav-item">
+      <span class="nav-link">Powerlink <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="powerlink-understanding-zh.html">概念介绍</a>
+        <a href="powerlink-api-zh.html">API设置与运营</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link">购物搜索广告 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="shopping-understanding-zh.html">概念介绍</a>
+        <a href="shopping-api-zh.html">API设置与运营</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link active">GFA <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-understanding-zh.html">概念介绍</a>
+        <a href="gfa-api-zh.html">API设置与运营</a>
+        <a href="gfa-sa-comparison-zh.html">与SA API的差异</a>
+      </div>
+    </li>
+    <li class="nav-item lang-switcher">
+      <span class="nav-link">🌐 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-understanding.html">한국어</a>
+        <a href="gfa-understanding-en.html">English</a>
+        <a href="gfa-understanding-zh.html" class="lang-active">中文</a>
+      </div>
+    </li>
+  </ul>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Page Header -->
+<header class="page-header">
+  <div class="badge">效果型展示广告 · GFA</div>
+  <h1>效果型展示广告（GFA）概念介绍</h1>
+  <p>从搜索广告（SA）迈向展示广告（DA）。一站式梳理效果型DA的概念、SA↔DA良性循环结构、NDA（动态广告）、精准再定向，以及按品牌知名度划分的运营策略。</p>
+</header>
+
+<!-- Content Wrapper -->
+<div class="content-wrap">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <h3>目录</h3>
+    <ul>
+      <li><a href="#section1">SECTION 1. 什么是效果型DA？</a></li>
+      <li><a href="#section2">SECTION 2. 为什么选择Naver DA</a></li>
+      <li><a href="#section3">SECTION 3. 从NDA开始</a></li>
+      <li class="sub"><a href="#section3-tip">NDA 100%活用TIP</a></li>
+      <li><a href="#section4">SECTION 4. 广告系列目的 & 展示位置</a></li>
+      <li><a href="#section5">SECTION 5. 精准定向</a></li>
+      <li class="sub"><a href="#section5-retarget">再定向3种</a></li>
+      <li class="sub"><a href="#section5-keyword">自定义（关键词）定向</a></li>
+      <li><a href="#section6">SECTION 6. 按品牌知名度划分的运营策略</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <p class="text-small" style="margin-bottom:20px;">来源：네이버광고_Playbook_SA to DA.pdf （Naver频道咨询，2025）</p>
+
+    <!-- SECTION 1 -->
+    <section class="section" id="section1">
+      <h2 class="section-title">
+        <span class="section-num">1</span>
+        什么是效果型DA？
+      </h2>
+
+      <div class="highlight-box">
+        <strong>核心信息：</strong>效果型展示广告（GFA）以横幅、视频、目录等形式在Naver各广告位展示，是<strong>通过定向与AI优化、以转化成效为目标进行运营</strong>的展示广告。
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">SA的局限与DA的必要性</h3>
+        <ul class="bullet-list">
+          <li>搜索广告（SA）<strong>基于搜索量</strong>，因此在广告主的体量扩张上存在局限。</li>
+          <li>即便吸收了品牌、通用、竞品关键词的全部需求，也无法触达不进行搜索的潜在客户。</li>
+          <li>DA能够触达不进行搜索的用户，发挥<strong>提升知名度与搜索量本身</strong>的作用。</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">SA ↔ DA 良性循环结构</h3>
+        <p>投放DA时不仅带来直接转化，还会同时提升知名度与搜索量。通过DA改善SA的体量与效率的<strong>良性循环结构</strong>，正是效果营销的核心。</p>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">良性循环</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-text"><code>SA (搜索广告)  ──  营收↑ + 再投资↑  ──▶  DA (展示广告)
+   ▲                                              │
+   │  搜索量↑ + CTR↑          展示量↑ + 知名度↑     │
+   └──────────────────────────────────────────────┘</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 2 -->
+    <section class="section" id="section2">
+      <h2 class="section-title">
+        <span class="section-num">2</span>
+        为什么选择Naver DA
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">持续成长的效果型DA市场</h3>
+        <ul class="bullet-list">
+          <li>成熟度较高的SA市场增长率有所放缓，相比之下<strong>效果型DA市场持续上扬</strong>，成长潜力更高。</li>
+          <li>过去6年间通过持续的广告产品改进，新广告主流入与新库存（广告位）持续增加。</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">内容–搜索–商务全面连通的平台</h3>
+        <div class="highlight-box">
+          Naver将<strong>内容（博客、Clip、Webtoon）– 搜索 – 商务（购物、Pay、会员）</strong>全面连通，是DA↔SA良性循环效果得以最大化的平台。
+        </div>
+      </div>
+
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 3 -->
+    <section class="section" id="section3">
+      <h2 class="section-title">
+        <span class="section-num">3</span>
+        从NDA（Naver动态广告）开始
+      </h2>
+
+      <div class="highlight-box">
+        <strong>如果是首次接触DA，请从NDA（Naver Dynamic Ads）开始。</strong>它利用Naver购物的商品DB与用户行为数据，<strong>动态生成个性化的广告素材</strong>，即便没有既有的DA经验也能轻松上手。
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">NDA的3大优势</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>优势</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>效率出色</strong></td><td>以再定向为中心运营，是Naver DA产品中转化成效最出色的Killer产品</td></tr>
+              <tr><td><strong>投放门槛低</strong></td><td>只要是在Naver购物入驻有商品的商务广告主，任何人均可投放</td></tr>
+              <tr><td><strong>素材资源最小化</strong></td><td>利用商品DB自动生成素材 → 无需额外的素材策划与制作资源</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">可投放对象（阶段性扩展）</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">扩展历程</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-text"><code>品牌店铺 ('22) ──▶ 智能店铺 ('23) ──▶ 自有商城 ('24, MMP对接 Q4)</code></pre>
+        </div>
+        <p class="text-small">继品牌店铺、智能店铺之后，入驻Naver购物的自有商城广告主、App广告主也可投放NDA。</p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">已验证的NDA成效（对比同一广告位的横幅类型）</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>指标</th><th>变化</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>CTR</td><td style="color:#03C75A;font-weight:700;">▲ 388%</td></tr>
+              <tr><td>CVR</td><td style="color:#03C75A;font-weight:700;">▲ 501%</td></tr>
+              <tr><td>ROAS</td><td style="color:#03C75A;font-weight:700;">▲ 565%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-small">23年10月，以NDA展示广告位与其他效果型广告的比较为基准</p>
+      </div>
+
+      <!-- TIP -->
+      <div class="subsection" id="section3-tip">
+        <h3 class="subsection-title">NDA 100%活用TIP 4条</h3>
+        <ol class="steps-list">
+          <li><strong>将目录中的所有商品都用于广告：</strong>商品数量越多，越能构成兼顾多样用户需求的广告。<strong>若商品数量不足4个，可能导致广告本身无法展示，请注意。</strong></li>
+          <li><strong>使用能充分体现商品特性的图片：</strong>若连续展示相似图片，用户无法识别商品间的差异，反应率可能下降。必要时可另行使用广告专用图片。</li>
+          <li><strong>常态化投放广告：</strong>AI展示逻辑会随广告持续运营而愈发精准。间歇性投放会导致每次都重新开始优化，因此建议常态化投放。</li>
+          <li><strong>扩大广告展示基数：</strong>采用非定向运营、选择「所有可展示的版位」、并通过「定向扩展功能」触达兴趣相似的潜在客户。</li>
+        </ol>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 4 -->
+    <section class="section" id="section4">
+      <h2 class="section-title">
+        <span class="section-num">4</span>
+        广告系列目的 &amp; 展示位置
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">广告系列目的 (Objective)</h3>
+        <p>根据广告目标选择广告系列目的，不同目的下的优化方式与必填设置各不相同。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>广告系列目的</th><th>用途</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>目录销售</strong></td><td>以基于商品DB的动态素材（NDA）引导销售与转化</td></tr>
+              <tr><td><strong>网站转化</strong></td><td>以购买、注册等网站内转化为目标</td></tr>
+              <tr><td><strong>知名度及流量</strong></td><td>获取知名度并引导访问网站</td></tr>
+              <tr><td><strong>视频观看</strong></td><td>展示并观看品牌信息视频</td></tr>
+              <tr><td><strong>App转化</strong></td><td>引导App安装、运行等App转化</td></tr>
+              <tr><td><strong>引导参与</strong></td><td>通过Naver个人资料自动填写表单便捷收集DB（推荐给Non-commerce广告主）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">展示位置</h3>
+        <ul class="bullet-list">
+          <li><strong>主要广告位：</strong>Naver首页横幅、信息流（Naver信息流/Band信息流）、智能频道</li>
+          <li><strong>多样的DA广告位：</strong>购物DA、视频DA、滚动板、品牌DA、子页DA、特别DA、时间板、主题板DA、综合DA等</li>
+          <li><strong>效果网络：</strong>扩展展示至Naver外部合作广告位</li>
+          <li>选择「所有可展示的版位」后，广告位扩展时会自动反映，从而增加展示机会。</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 5 -->
+    <section class="section" id="section5">
+      <h2 class="section-title">
+        <span class="section-num">5</span>
+        精准定向
+      </h2>
+
+      <div class="subsection">
+        <h3 class="subsection-title">六大定向类别</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>类别</th><th>定向</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+              <tr><td rowspan="4">① 潜在客户 – 购物定向</td><td>店铺定向 ★</td><td>在智能/品牌店铺发生访问、购买等特定事件的用户</td></tr>
+              <tr><td>客户旅程定向 ★</td><td>面向品牌店铺，基于Naver购物内累计用户行为数据生成</td></tr>
+              <tr><td>开启通知定向</td><td>对特定智能/品牌店铺开启通知的人群</td></tr>
+              <tr><td>CRM营销定向</td><td>在购物智能店铺中心订阅的解决方案的客户群数据</td></tr>
+              <tr><td rowspan="3">② 潜在客户 – 我的数据</td><td>客户文件</td><td>直接上传广告标识符列表进行注册</td></tr>
+              <tr><td>MAT定向</td><td>MAT服务联动定向</td></tr>
+              <tr><td>网站定向 ★</td><td>在我的网站发生访问、购买等特定事件的用户</td></tr>
+              <tr><td>③ 潜在客户 – 自定义定向</td><td>关键词定向</td><td>用户关注领域相关的内容使用行为（基于关键词搜索）</td></tr>
+              <tr><td>④ 潜在客户 – 相似定向</td><td>相似定向</td><td>以我的数据定向等为Seed，具有相似行为模式的对象</td></tr>
+              <tr><td>⑤ 兴趣 / 购买意图</td><td>兴趣 · 购买意图</td><td>用户的关注领域、兴趣及对特定产品的购买意图</td></tr>
+              <tr><td>⑥ 人口统计</td><td>性别·年龄 · 扩展人口</td><td>性别（男/女/未知）、14~60岁以上（每5岁为单位）、婴儿、幼儿、家长定向等</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 再定向 -->
+      <div class="subsection" id="section5-retarget">
+        <h3 class="subsection-title">仅Naver可实现的精准再定向3种 ★</h3>
+        <p>可利用店铺定向、客户旅程定向、网站定向实现高效率的DA运营。</p>
+
+        <div class="subsection">
+          <h3 class="subsection-title">① 店铺定向 — 按事件划分的客户细分</h3>
+          <ul class="bullet-list">
+            <li>定向在我的店铺触发特定事件的客户（可设置1~180天的期间）</li>
+            <li>事件阶段：<strong>访问 → 收藏商品 → 领取优惠券 → 加入购物车 → 开始结算 → 完成购买</strong></li>
+            <li>按事件动作进行细分，向相应阶段传递贴合的信息</li>
+          </ul>
+          <div class="highlight-box">
+            <strong>成功案例：</strong>将店铺定向投放占比提升至47%，带动整体广告费规模上升，ROAS提升1.6倍，<strong>录得250%</strong>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">② 客户旅程定向 — 以品牌为中心的潜在客户（仅品牌店铺）</h3>
+          <ul class="bullet-list">
+            <li>不仅包含我的品牌店铺访问者，还包含对我的品牌商品表现出兴趣或尝试购买的用户</li>
+            <li>旅程阶段：<strong>发现品牌 → 关注品牌 → 尝试购买 → 购买 → 持续关注</strong></li>
+            <li>例：向处于「关注品牌～临近购买」区间犹豫不决的客户展示优惠素材以引导转化</li>
+          </ul>
+          <div class="highlight-box">
+            <strong>成功案例（Desker品牌周）：</strong>客户旅程定向<strong>CVR 3,319%</strong>（对比购买意图定向421%，优势压倒性）
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3 class="subsection-title">③ 网站定向</h3>
+          <ul class="bullet-list">
+            <li>对在我的网站（自有商城）发生访问、购买等特定事件的用户进行再定向</li>
+            <li>没有店铺的自有商城广告主也可使用</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 自定义定向 -->
+      <div class="subsection" id="section5-keyword">
+        <h3 class="subsection-title">自定义（关键词）定向 — 仅Naver</h3>
+        <p>这是基于关键词搜索去寻找客户的定向方式，利用国内最大的搜索数据。</p>
+        <ol class="steps-list">
+          <li><strong>选定关键词：</strong>从SA报告中选定展示量或转化量较高的关键词</li>
+          <li><strong>分组：</strong>根据关键词人群规模与性质进行分类 — <strong>最小定向人群1,000以上</strong>，按自有品牌 / 竞品 / 通用（类别）USP分类</li>
+          <li><strong>素材Align：</strong>当各关键词定向都恰当地搭配素材时成效最佳（例：胶囊关键词 → 胶囊素材）</li>
+        </ol>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 6 -->
+    <section class="section" id="section6">
+      <h2 class="section-title">
+        <span class="section-num">6</span>
+        按品牌知名度划分的运营策略
+      </h2>
+      <p>由于SA的优势与局限会随品牌知名度而不同，因此需要为DA定义不同的角色与目的。</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>区分</th>
+              <th>① 高知名度商务</th>
+              <th>② 低知名度商务</th>
+              <th>③ 非商务（例：DB收集）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>DA目标</strong></td><td>扩大份额 &amp; 获取忠诚客户</td><td>获取新客户 &amp; 扩大品牌搜索量</td><td>获取新客户 &amp; 扩大品牌搜索量</td></tr>
+            <tr><td><strong>推荐广告系列组合</strong></td><td>目录 + 转化</td><td>流量 / 转化</td><td>流量 + 引导参与</td></tr>
+            <tr><td><strong>推荐定向</strong></td><td>再定向（网站、店铺）</td><td>购买意图 / 兴趣</td><td>关键词自定义定向</td></tr>
+            <tr><td><strong>建议日预算</strong></td><td>转化CPA的10倍</td><td>转化CPA的10倍</td><td>转化CPA的10倍</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">① 高知名度的商务品牌</h3>
+        <ul class="bullet-list">
+          <li>守护自有市场份额与客户管理是第一优先</li>
+          <li>优先运营效率出色的NDA（目录销售），<strong>以再定向广告为中心</strong></li>
+          <li>扩展时以购买意图/兴趣定向进攻新市场</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">② 低知名度的商务品牌 — 市场开拓者</h3>
+        <ul class="bullet-list">
+          <li>自有市场规模较小，必须向新市场扩展。运营初期相比效率，<strong>在短期内确保广告人群</strong>是关键</li>
+          <li><strong>策略①</strong> 以流量（购买意图/兴趣）汇集人群，扩大目录体量</li>
+          <li><strong>策略②</strong> 以转化（关键词自定义定向）确保参与度高的用户，扩大目录体量</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">③ 非商务品牌（金融、保险、游戏、法律、医院诊所等）</h3>
+        <ul class="bullet-list">
+          <li>多以收集DB及获取新用户为目的，竞品间的Push营销活跃</li>
+          <li>由于目标人群明确，<strong>积极活用关键词自定义定向</strong>，并推荐同步测试引导参与广告系列</li>
+          <li>引导参与广告：通过Naver个人资料自动填写，在Naver环境内实现Seamless的DB收集</li>
+        </ul>
+      </div>
+
+      <div class="highlight-box">
+        <strong>Best Practice：</strong>先以初期流量广告系列积累人群，再逐步提高转化、目录的占比以扩大体量，是共通的成功模式。（化妆品C：广告费YoY扩大580%、ROAS改善61% / 小家电D：转化▲1,693%等）
+      </div>
+    </section>
+
+    <!-- Next Page -->
+    <div style="margin-top:40px;padding:24px;background:var(--bg-alt);border-radius:var(--radius);border:1px solid var(--border);text-align:center;">
+      <p style="margin-bottom:14px;font-weight:600;color:var(--text);">理解了效果型DA的概念后，请进入下一步。</p>
+      <a href="gfa-api-zh.html" class="hero-cta" style="display:inline-flex;">API设置与运营 →</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    GFA API官方文档：<a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+    &nbsp;|&nbsp;
+    Naver开发者中心：<a href="https://developers.naver.com" target="_blank">developers.naver.com</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

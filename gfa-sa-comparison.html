@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SA API와 GFA API 차이점 — 네이버 검색광고 API 가이드</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="logo-mark">N</span>
+    <span class="logo-text">네이버 검색광고 API로 시작하기</span>
+  </a>
+  <ul class="nav-menu">
+    <li class="nav-item">
+      <span class="nav-link">파워링크 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="powerlink-understanding.html">이해하기</a>
+        <a href="powerlink-api.html">API로 세팅 및 운영하기</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link">쇼핑검색광고 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="shopping-understanding.html">이해하기</a>
+        <a href="shopping-api.html">API로 세팅 및 운영하기</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link active">GFA <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-understanding.html">이해하기</a>
+        <a href="gfa-api.html">API로 세팅 및 운영하기</a>
+        <a href="gfa-sa-comparison.html">SA API와 차이점</a>
+      </div>
+    </li>
+    <li class="nav-item lang-switcher">
+      <span class="nav-link">🌐 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-sa-comparison.html" class="lang-active">한국어</a>
+        <a href="gfa-sa-comparison-en.html">English</a>
+        <a href="gfa-sa-comparison-zh.html">中文</a>
+      </div>
+    </li>
+  </ul>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Page Header -->
+<header class="page-header">
+  <div class="badge">성과형 디스플레이광고 · API 비교</div>
+  <h1>SA API와 GFA API 차이점</h1>
+  <p>검색광고(SA) API와 성과형 디스플레이광고(GFA) API는 인증 모델·권한 발급·구조가 다릅니다. 두 공식 문서를 기준으로 차이를 정리합니다.</p>
+</header>
+
+<!-- Content Wrapper -->
+<div class="content-wrap">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <h3>목차</h3>
+    <ul>
+      <li><a href="#overview">한눈에 비교</a></li>
+      <li><a href="#auth">핵심 차이 ① 인증 모델</a></li>
+      <li><a href="#permission">핵심 차이 ② 권한 발급</a></li>
+      <li><a href="#note">연동 시 참고</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <p class="text-small" style="margin-bottom:20px;">출처: SA — naver.github.io/searchad-apidoc · GFA — naver-ad-api.github.io/developers</p>
+
+    <!-- 한눈에 비교 -->
+    <section class="section" id="overview">
+      <h2 class="section-title">
+        <span class="section-num">1</span>
+        한눈에 비교
+      </h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>구분</th><th>SA API (검색광고)</th><th>GFA API (성과형 DA)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>인증 방식</strong></td><td>API KEY + SECRET KEY 기반 <strong>HMAC-SHA256 서명</strong></td><td><strong>OAuth 2.0 (네이버 로그인) Access Token</strong> (Bearer)</td></tr>
+            <tr><td><strong>인증 헤더</strong></td><td><code>X-Timestamp</code> · <code>X-API-KEY</code> · <code>X-Customer</code> · <code>X-Signature</code></td><td><code>Authorization: Bearer</code> (+ 조건부 <code>AccessManagerAccountNo</code>)</td></tr>
+            <tr><td><strong>권한 발급</strong></td><td>광고주가 광고시스템에서 <strong>직접 라이선스 발급</strong></td><td><strong>공식 파트너(대행사) 신청 + 네이버 관리자 승인(베타)</strong></td></tr>
+            <tr><td><strong>앱 등록</strong></td><td>불필요 (광고시스템이 키 발급)</td><td><strong>developers.naver.com 앱 등록</strong> (Client ID/Secret) 필요</td></tr>
+            <tr><td><strong>Base URL</strong></td><td><code>https://api.searchad.naver.com</code></td><td><code>https://openapi.naver.com/v1/ad-api/{version}</code></td></tr>
+            <tr><td><strong>계정 식별</strong></td><td><code>X-Customer</code> (Customer ID)</td><td><code>AccessManagerAccountNo</code> (관리계정 하위 광고계정 요청 시)</td></tr>
+            <tr><td><strong>구조 용어</strong></td><td>캠페인 / 광고그룹 / 키워드·소재</td><td><code>campaign</code> / <code>adSet</code> / <code>creative</code></td></tr>
+            <tr><td><strong>공식 문서</strong></td><td>naver.github.io/searchad-apidoc</td><td>naver-ad-api.github.io/developers</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- 인증 모델 -->
+    <section class="section" id="auth">
+      <h2 class="section-title">
+        <span class="section-num">2</span>
+        핵심 차이 ① 인증 모델
+      </h2>
+
+      <div class="highlight-box">
+        SA는 <strong>KEY+SECRET 기반 직접 서명(HMAC)</strong> 방식, GFA는 <strong>네이버 로그인 OAuth 토큰</strong> 방식입니다. 인증 구조 자체가 달라 <strong>SA 연동 코드를 그대로 GFA에 재사용할 수 없습니다.</strong>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">SA API — HMAC 서명 헤더</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">bash / curl</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/ncc/campaigns" \
+  -H "X-Timestamp: 1712800000000" \
+  -H "X-API-KEY: {발급받은 API KEY}" \
+  -H "X-Customer: {Customer ID}" \
+  -H "X-Signature: {HMAC-SHA256 서명값}"</code></pre>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">GFA API — OAuth 액세스 토큰 헤더</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">bash / curl</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-bash"><code>curl -X GET 'https://openapi.naver.com/v1/ad-api/1.0/adAccounts/456/campaigns' \
+  -H 'AccessManagerAccountNo: 123' \
+  -H 'Authorization: Bearer {액세스 토큰}'</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- 권한 발급 -->
+    <section class="section" id="permission">
+      <h2 class="section-title">
+        <span class="section-num">3</span>
+        핵심 차이 ② 권한 발급
+      </h2>
+
+      <ul class="bullet-list">
+        <li><strong>SA API:</strong> 광고주가 광고시스템 내에서 API 라이선스를 직접 신청·발급 → 누구나 사용 가능</li>
+        <li><strong>GFA API:</strong> <strong>공식 파트너(대행사)</strong>를 통해 사용 신청 + 네이버 <strong>관리자 승인</strong>이 필요한 <strong>베타</strong> 상태 → developers.naver.com 앱 등록(Client ID) 선행</li>
+      </ul>
+      <div class="warning-box">
+        ⚠️ GFA API는 SA API와 달리 <strong>셀프 발급이 아니며</strong>, 권한 진입장벽이 있습니다.
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- 연동 시 참고 -->
+    <section class="section" id="note">
+      <h2 class="section-title">
+        <span class="section-num">4</span>
+        연동 시 참고
+      </h2>
+
+      <ul class="bullet-list">
+        <li>인증 모델이 다르므로 <strong>SA·GFA는 각각 별도로 연동</strong>해야 합니다 (공통 클라이언트 재사용 불가).</li>
+        <li>SA는 <code>X-Customer</code>로, GFA는 <code>AccessManagerAccountNo</code>로 대상 계정을 지정합니다.</li>
+        <li>Base URL·구조 용어(키워드 vs <code>creative</code>)가 다르니 엔드포인트 매핑에 유의하세요.</li>
+      </ul>
+
+      <div class="highlight-box">
+        📌 상세 스펙은 각 공식 문서를 확인하세요. SA: <a href="https://naver.github.io/searchad-apidoc" target="_blank">naver.github.io/searchad-apidoc</a> · GFA: <a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    SA API: <a href="https://naver.github.io/searchad-apidoc" target="_blank">naver.github.io/searchad-apidoc</a>
+    &nbsp;|&nbsp;
+    GFA API: <a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

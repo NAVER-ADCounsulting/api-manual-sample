@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SA API 与 GFA API 的差异 — Naver搜索广告API指南</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a href="index-zh.html" class="nav-logo">
+    <span class="logo-mark">N</span>
+    <span class="logo-text">Naver搜索广告API入门指南</span>
+  </a>
+  <ul class="nav-menu">
+    <li class="nav-item">
+      <span class="nav-link">Powerlink <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="powerlink-understanding-zh.html">概念介绍</a>
+        <a href="powerlink-api-zh.html">API设置与运营</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link">购物搜索广告 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="shopping-understanding-zh.html">概念介绍</a>
+        <a href="shopping-api-zh.html">API设置与运营</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link active">GFA <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-understanding-zh.html">概念介绍</a>
+        <a href="gfa-api-zh.html">API设置与运营</a>
+        <a href="gfa-sa-comparison-zh.html">与SA API的差异</a>
+      </div>
+    </li>
+    <li class="nav-item lang-switcher">
+      <span class="nav-link">🌐 <span class="arrow">▾</span></span>
+      <div class="dropdown">
+        <a href="gfa-sa-comparison.html">한국어</a>
+        <a href="gfa-sa-comparison-en.html">English</a>
+        <a href="gfa-sa-comparison-zh.html" class="lang-active">中文</a>
+      </div>
+    </li>
+  </ul>
+  <div class="nav-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Page Header -->
+<header class="page-header">
+  <div class="badge">效果型展示广告 · API比较</div>
+  <h1>SA API 与 GFA API 的差异</h1>
+  <p>搜索广告（SA）API与效果型展示广告（GFA）API在认证模型、权限发放、结构上各不相同。以两份官方文档为准梳理其差异。</p>
+</header>
+
+<!-- Content Wrapper -->
+<div class="content-wrap">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <h3>目录</h3>
+    <ul>
+      <li><a href="#overview">一览比较</a></li>
+      <li><a href="#auth">核心差异 ① 认证模型</a></li>
+      <li><a href="#permission">核心差异 ② 权限发放</a></li>
+      <li><a href="#note">联动时参考</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <p class="text-small" style="margin-bottom:20px;">来源：SA — naver.github.io/searchad-apidoc · GFA — naver-ad-api.github.io/developers</p>
+
+    <!-- 一览对比 -->
+    <section class="section" id="overview">
+      <h2 class="section-title">
+        <span class="section-num">1</span>
+        一览比较
+      </h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>区分</th><th>SA API (搜索广告)</th><th>GFA API (效果型DA)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>认证方式</strong></td><td>基于 API KEY + SECRET KEY 的 <strong>HMAC-SHA256 签名</strong></td><td><strong>OAuth 2.0 (Naver登录) Access Token</strong> (Bearer)</td></tr>
+            <tr><td><strong>认证头</strong></td><td><code>X-Timestamp</code> · <code>X-API-KEY</code> · <code>X-Customer</code> · <code>X-Signature</code></td><td><code>Authorization: Bearer</code> (+ 条件性 <code>AccessManagerAccountNo</code>)</td></tr>
+            <tr><td><strong>权限发放</strong></td><td>广告主在广告系统中<strong>直接发放许可证</strong></td><td><strong>官方合作伙伴（代理商）申请 + Naver管理员批准（测试版）</strong></td></tr>
+            <tr><td><strong>应用注册</strong></td><td>无需（广告系统发放密钥）</td><td>需<strong>在 developers.naver.com 注册应用</strong>（Client ID/Secret）</td></tr>
+            <tr><td><strong>Base URL</strong></td><td><code>https://api.searchad.naver.com</code></td><td><code>https://openapi.naver.com/v1/ad-api/{version}</code></td></tr>
+            <tr><td><strong>账户识别</strong></td><td><code>X-Customer</code> (Customer ID)</td><td><code>AccessManagerAccountNo</code> (向管理账户下属广告账户发起请求时)</td></tr>
+            <tr><td><strong>结构术语</strong></td><td>广告系列 / 广告组 / 关键词·素材</td><td><code>campaign</code> / <code>adSet</code> / <code>creative</code></td></tr>
+            <tr><td><strong>官方文档</strong></td><td>naver.github.io/searchad-apidoc</td><td>naver-ad-api.github.io/developers</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- 认证模型 -->
+    <section class="section" id="auth">
+      <h2 class="section-title">
+        <span class="section-num">2</span>
+        核心差异 ① 认证模型
+      </h2>
+
+      <div class="highlight-box">
+        SA采用<strong>基于KEY+SECRET的直接签名（HMAC）</strong>方式，GFA采用<strong>Naver登录OAuth令牌</strong>方式。由于认证结构本身不同，<strong>SA联动代码无法原样复用于GFA。</strong>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">SA API — HMAC签名头</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">bash / curl</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-bash"><code>curl -X GET "https://api.searchad.naver.com/ncc/campaigns" \
+  -H "X-Timestamp: 1712800000000" \
+  -H "X-API-KEY: {已发放的API KEY}" \
+  -H "X-Customer: {Customer ID}" \
+  -H "X-Signature: {HMAC-SHA256签名值}"</code></pre>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">GFA API — OAuth访问令牌头</h3>
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <span class="lang-label">bash / curl</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre class="language-bash"><code>curl -X GET 'https://openapi.naver.com/v1/ad-api/1.0/adAccounts/456/campaigns' \
+  -H 'AccessManagerAccountNo: 123' \
+  -H 'Authorization: Bearer {访问令牌}'</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- 权限发放 -->
+    <section class="section" id="permission">
+      <h2 class="section-title">
+        <span class="section-num">3</span>
+        核心差异 ② 权限发放
+      </h2>
+
+      <ul class="bullet-list">
+        <li><strong>SA API：</strong>广告主在广告系统内直接申请·发放API许可证 → 任何人均可使用</li>
+        <li><strong>GFA API：</strong>需通过<strong>官方合作伙伴（代理商）</strong>提交使用申请 + 需Naver<strong>管理员批准</strong>的<strong>测试版</strong>状态 → 需先在 developers.naver.com 注册应用（Client ID）</li>
+      </ul>
+      <div class="warning-box">
+        ⚠️ GFA API与SA API不同，<strong>并非自助发放</strong>，存在权限准入门槛。
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- 对接时参考 -->
+    <section class="section" id="note">
+      <h2 class="section-title">
+        <span class="section-num">4</span>
+        联动时参考
+      </h2>
+
+      <ul class="bullet-list">
+        <li>由于认证模型不同，<strong>SA与GFA须各自单独联动</strong>（无法复用通用客户端）。</li>
+        <li>SA以<code>X-Customer</code>、GFA以<code>AccessManagerAccountNo</code>指定目标账户。</li>
+        <li>Base URL与结构术语（关键词 vs <code>creative</code>）不同，端点映射时请注意。</li>
+      </ul>
+
+      <div class="highlight-box">
+        📌 详细规格请查阅各官方文档。SA: <a href="https://naver.github.io/searchad-apidoc" target="_blank">naver.github.io/searchad-apidoc</a> · GFA: <a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    SA API: <a href="https://naver.github.io/searchad-apidoc" target="_blank">naver.github.io/searchad-apidoc</a>
+    &nbsp;|&nbsp;
+    GFA API: <a href="https://naver-ad-api.github.io/developers/docs/intro" target="_blank">naver-ad-api.github.io/developers</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
